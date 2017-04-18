@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ip Address</string>
-    <string name="ip_address">IP ADDRESS:</string>
+    <string name="app_name" translatable="false">Ip Address</string>
+    <string name="ip_address" translatable="false">IP ADDRESS:</string>
     <string name="copySuccessful">IP address has copied to the clipboard</string>
 </resources>

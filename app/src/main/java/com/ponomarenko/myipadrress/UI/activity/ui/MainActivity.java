@@ -9,13 +9,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ponomarenko.myipadrress.R;
 import com.ponomarenko.myipadrress.UI.activity.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private static final String TAG = MainActivity.class.getSimpleName();
     TextView ipAddressTextView;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, getString(R.string.copySuccessful), Toast.LENGTH_SHORT).show();
             }
         });
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void copyToClipboard(CharSequence label, CharSequence text) {
