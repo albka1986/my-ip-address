@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "731489264380-3m25ks0d8otkm40e366k09od6rm8puc3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ponomarenko.myipadrress",
+            "certificate_hash": "41e6166d67af2d3c583874c7b0e9fc89526749ca"
+          }
+        },
+        {
           "client_id": "731489264380-rpk0618r1ivvt6vpl5julhla219tce1p.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731489264380-rpk0618r1ivvt6vpl5julhla219tce1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

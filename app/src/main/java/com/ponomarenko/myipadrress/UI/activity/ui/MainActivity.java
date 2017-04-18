@@ -1,5 +1,6 @@
 package com.ponomarenko.myipadrress.UI.activity.ui;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -36,7 +37,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bundle_id");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "bundle_name");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
     }
+
 
     private void copyToClipboard(CharSequence label, CharSequence text) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
