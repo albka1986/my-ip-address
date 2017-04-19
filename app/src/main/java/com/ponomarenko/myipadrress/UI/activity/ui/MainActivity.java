@@ -1,6 +1,5 @@
 package com.ponomarenko.myipadrress.UI.activity.ui;
 
-import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ponomarenko.myipadrress.R;
@@ -16,26 +14,29 @@ import com.ponomarenko.myipadrress.UI.activity.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final String TAG = MainActivity.class.getSimpleName();
-    TextView ipAddressTextView;
+
+    private TextView ipAddressTextView, networkNameTextView;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private View.OnClickListener clickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String ipAddress = Utils.getIPAddress(true);
+        setTitle(getString(R.string.title_main_screen));
+        clickListener = new MyOnClickListener();
         ipAddressTextView = (TextView) findViewById(R.id.ip_address_text_view);
+        String ipAddress = Utils.getIPAddress(true);
         ipAddressTextView.setText(ipAddress);
-        ipAddressTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence text = ((TextView) v).getText();
-                copyToClipboard("Ip Address", text);
-                Toast.makeText(MainActivity.this, getString(R.string.copySuccessful), Toast.LENGTH_SHORT).show();
-            }
-        });
+        ipAddressTextView.setOnClickListener(clickListener);
+
+        networkNameTextView = (TextView) findViewById(R.id.network_name);
+        String networkName = "";
+        networkNameTextView.setText(networkName);
+        networkNameTextView.setOnClickListener(clickListener);
+
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
@@ -52,5 +53,14 @@ public class MainActivity extends AppCompatActivity {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(label, text);
         clipboard.setPrimaryClip(clip);
+    }
+
+
+    private class MyOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            CharSequence text = ((TextView) v).getText();
+            copyToClipboard("MyIpAddress", text);
+        }
     }
 }

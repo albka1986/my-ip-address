@@ -140,4 +140,13 @@ public class Utils {
         return "";
     }
 
+    public static String getNetworkName() {
+        String networkName = "";
+        networkName = android.net.wifi.WifiInfo.
+
+
+        return networkName;
+
+    }
+
 }

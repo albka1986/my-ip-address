@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Ip Address</string>
     <string name="ip_address" translatable="false">IP ADDRESS:</string>
-    <string name="copySuccessful">IP address has copied to the clipboard</string>
+    <string name="copySuccessful">Data have been copied into clipboard</string>
+    <string name="title_main_screen">IP ADDRESS</string>
+    <string name="network">NETWORK:</string>
 </resources>

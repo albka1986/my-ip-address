@@ -3,42 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="45dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.ponomarenko.myipadrress.UI.activity.ui.MainActivity">
 
 
     <TextView
-        android:id="@+id/title_ip_address"
+        style="@style/title_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:text="@string/ip_address"
-        android:textColor="@android:color/background_dark"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:text="@string/ip_address" />
 
     <TextView
         android:id="@+id/ip_address_text_view"
+        style="@style/info_text_style"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:fontFamily="monospace"
-        android:padding="20dp"
-        android:text="192.168.0.92"
-        android:textColor="@android:color/background_dark"
-        android:textSize="30sp"
-
-        />
+        android:text="192.168.0.92" />
 
     <TextView
+        style="@style/title_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/network" />
 
-
-
-        />
+    <TextView
+        android:id="@+id/network_name"
+        style="@style/info_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Internet WiFi" />
 
 
 </LinearLayout>
