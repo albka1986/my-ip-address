@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         ipAddressTextView.setOnClickListener(clickListener);
 
         networkNameTextView = (TextView) findViewById(R.id.network_name);
-        String networkName = "";
+        String networkName = Utils.getWifiName(getApplicationContext());
         networkNameTextView.setText(networkName);
         networkNameTextView.setOnClickListener(clickListener);
 
