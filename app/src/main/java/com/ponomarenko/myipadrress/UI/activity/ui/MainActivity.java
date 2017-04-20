@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -19,26 +20,19 @@ public class MainActivity extends AppCompatActivity {
     private TextView ipAddressTextView, networkNameTextView;
     private FirebaseAnalytics mFirebaseAnalytics;
     private View.OnClickListener clickListener;
+    private Button refresh;
+    private String ipAddress;
+    private String networkName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.title_main_screen));
-        clickListener = new MyOnClickListener();
-        ipAddressTextView = (TextView) findViewById(R.id.ip_address_text_view);
-        String ipAddress = Utils.getIPAddress(true);
-        ipAddressTextView.setText(ipAddress);
-        ipAddressTextView.setOnClickListener(clickListener);
-
-        networkNameTextView = (TextView) findViewById(R.id.network_name);
-        String networkName = Utils.getWifiName(getApplicationContext());
-        networkNameTextView.setText(networkName);
-        networkNameTextView.setOnClickListener(clickListener);
+        initializeViews();
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bundle_id");
@@ -46,6 +40,19 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
+    }
+
+    private void initializeViews() {
+        clickListener = new MyOnClickListener();
+        ipAddressTextView = (TextView) findViewById(R.id.ip_address_text_view);
+        ipAddress = Utils.getIPAddress(true);
+        ipAddressTextView.setText(ipAddress);
+        ipAddressTextView.setOnClickListener(clickListener);
+
+        networkNameTextView = (TextView) findViewById(R.id.network_name);
+        networkName = Utils.getWifiName(getApplicationContext());
+        networkNameTextView.setText(networkName);
+        networkNameTextView.setOnClickListener(clickListener);
     }
 
 

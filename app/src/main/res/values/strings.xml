@@ -4,4 +4,5 @@
     <string name="copySuccessful">Data have been copied into clipboard</string>
     <string name="title_main_screen">IP ADDRESS</string>
     <string name="network">NETWORK:</string>
+    <string name="refresh_data">Refresh</string>
 </resources>

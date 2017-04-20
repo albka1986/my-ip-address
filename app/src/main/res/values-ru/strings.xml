@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="copySuccessful">Данные скопированы в буфер обмена</string>
+    <string name="refresh_data">Обновить</string>
 </resources>
