@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "731489264380-uigifu6fgqjajkf7erldbnatl5pfnqv1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ponomarenko.myipadrress",
+            "certificate_hash": "71b271870074b09eb3df258b45e39fb3a78eafae"
+          }
+        },
+        {
           "client_id": "731489264380-3m25ks0d8otkm40e366k09od6rm8puc3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
