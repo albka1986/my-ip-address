@@ -1,10 +1,13 @@
 package com.ponomarenko.myipadrress.UI.activity.utils;
 
+import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,12 +20,6 @@ import java.util.List;
 
 public class Utils {
 
-    /**
-     * Convert byte array to hex string
-     *
-     * @param bytes
-     * @return
-     */
     public static String bytesToHex(byte[] bytes) {
         StringBuilder sbuf = new StringBuilder();
         for (int idx = 0; idx < bytes.length; idx++) {
@@ -33,12 +30,6 @@ public class Utils {
         return sbuf.toString();
     }
 
-    /**
-     * Get utf8 byte array.
-     *
-     * @param str
-     * @return array of NULL if error was found
-     */
     public static byte[] getUTF8Bytes(String str) {
         try {
             return str.getBytes("UTF-8");
@@ -47,13 +38,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Load UTF8withBOM or any ansi text file.
-     *
-     * @param filename
-     * @return
-     * @throws java.io.IOException
-     */
     public static String loadFileAsString(String filename) throws java.io.IOException {
         final int BUFLEN = 1024;
         BufferedInputStream is = new BufferedInputStream(new FileInputStream(filename), BUFLEN);
@@ -80,12 +64,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Returns MAC address of the given interface name.
-     *
-     * @param interfaceName eth0, wlan0 or NULL=use first interface
-     * @return mac address or empty string
-     */
     public static String getMACAddress(String interfaceName) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -112,12 +90,9 @@ public class Utils {
         }*/
     }
 
-    /**
-     * Get IP address from first non-localhost interface
-     *
-     * @param ipv4 true=return ipv4, false=return ipv6
-     * @return address or empty string
-     */
+
+    // param ipv4 true=return ipv4, false=return ipv6
+
     public static String getIPAddress(boolean useIPv4) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -172,10 +147,11 @@ public class Utils {
 
         if (isConnected) {
             networkName = activeNetwork.getExtraInfo();
-            if (networkName==null){
-                networkName = activeNetwork.getSubtypeName();
+            if (networkName == null) {
+                networkName = getMobileNetworkMName(context);
             }
         }
+        Log.d("debug", "getExtraInfo: " + networkName);
         return networkName.trim();
 
     }
@@ -196,4 +172,9 @@ public class Utils {
         return networkType.trim();
     }
 
+    public static String getMobileNetworkMName(Context context) {
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String carrierName = manager.getNetworkOperatorName();
+        return carrierName;
+    }
 }
