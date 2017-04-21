@@ -2,10 +2,10 @@
     <string name="app_name" translatable="false">Ip Address</string>
     <string name="ip_address" translatable="false">IP ADDRESS:</string>
     <string name="copySuccessful">Data have been copied into clipboard</string>
-    <string name="title_main_screen">IP ADDRESS</string>
+    <string name="title_main_screen" translatable="false">IP ADDRESS</string>
     <string name="network_type">Type:</string>
     <string name="refresh_data">Refresh</string>
     <string name="network_name">Name:</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
 </resources>

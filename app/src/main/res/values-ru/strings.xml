@@ -2,5 +2,6 @@
 <resources>
     <string name="copySuccessful">Данные скопированы в буфер обмена</string>
     <string name="refresh_data">Обновить</string>
-    <string name="network_type">Тип сети</string>
+    <string name="network_type">Тип сети:</string>
+    <string name="network_name">Название:</string>
 </resources>
