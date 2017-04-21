@@ -1,6 +1,7 @@
 package com.ponomarenko.myipadrress.UI.activity.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -157,6 +158,42 @@ public class Utils {
             }
         }
         return null;
+    }
+
+    public static String networkName(Context context) {
+        String networkName = "";
+
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected) {
+            networkName = activeNetwork.getExtraInfo();
+            if (networkName==null){
+                networkName = activeNetwork.getSubtypeName();
+            }
+        }
+        return networkName.trim();
+
+    }
+
+    public static String networkType(Context context) {
+        String networkType = "";
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected) {
+            networkType = activeNetwork.getTypeName();
+        }
+
+        return networkType.trim();
     }
 
 }

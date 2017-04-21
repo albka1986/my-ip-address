@@ -17,12 +17,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private TextView ipAddressTextView, networkNameTextView;
+    private TextView ipAddressTextView, networkNameTextView, networkTypeTexView;
     private FirebaseAnalytics mFirebaseAnalytics;
     private View.OnClickListener clickListener;
-    private Button refresh;
-    private String ipAddress;
-    private String networkName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,28 +28,65 @@ public class MainActivity extends AppCompatActivity {
         setTitle(getString(R.string.title_main_screen));
         initializeViews();
 
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
+       /* mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bundle_id");
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "bundle_name");
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);*/
 
     }
 
     private void initializeViews() {
         clickListener = new MyOnClickListener();
+
         ipAddressTextView = (TextView) findViewById(R.id.ip_address_text_view);
-        ipAddress = Utils.getIPAddress(true);
-        ipAddressTextView.setText(ipAddress);
         ipAddressTextView.setOnClickListener(clickListener);
 
         networkNameTextView = (TextView) findViewById(R.id.network_name);
-        networkName = Utils.getWifiName(getApplicationContext());
-        networkNameTextView.setText(networkName);
         networkNameTextView.setOnClickListener(clickListener);
+
+        networkTypeTexView = (TextView) findViewById(R.id.network_type);
+        networkTypeTexView.setOnClickListener(clickListener);
+
+        loadData();
+
+        Button refresh = (Button) findViewById(R.id.refresh_button);
+        refresh.setOnClickListener(clickListener);
+
+    }
+
+    private void loadData() {
+        setIpAddress();
+        setNetworkName();
+        setNetworkType();
+    }
+
+    private void setNetworkType() {
+        String networkType = Utils.networkType(getApplicationContext());
+        if (networkType != null) {
+            networkTypeTexView.setText(networkType);
+        } else {
+            networkTypeTexView.setText("");
+        }
+    }
+
+    private void setNetworkName() {
+        String networkName = Utils.networkName(getApplicationContext());
+        if (networkName != null) {
+            networkNameTextView.setText(networkName);
+        } else {
+            networkNameTextView.setText("");
+        }
+    }
+
+    private void setIpAddress() {
+        String ipAddress = Utils.getIPAddress(true);
+        if (ipAddress != null) {
+            ipAddressTextView.setText(ipAddress);
+        } else {
+            ipAddressTextView.setText("");
+        }
     }
 
 
@@ -66,8 +100,19 @@ public class MainActivity extends AppCompatActivity {
     private class MyOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            CharSequence text = ((TextView) v).getText();
-            copyToClipboard("MyIpAddress", text);
+
+            switch (v.getId()) {
+                case R.id.refresh_button:
+                    loadData();
+                    break;
+                default:
+                    CharSequence text = ((TextView) v).getText();
+                    copyToClipboard("MyIpAddress", text);
+                    break;
+            }
+
         }
     }
+
+
 }
