@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -60,15 +59,16 @@
             android:text="Name_network" />
 
 
-        <Button
-            android:id="@+id/refresh_button"
-            style="@android:style/Theme.DeviceDefault.Light"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="@string/refresh_data" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/refresh_button"
+        style="@android:style/Theme.DeviceDefault.Light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/refresh_data" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -78,11 +78,10 @@
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id">
-        </com.google.android.gms.ads.AdView>
+            ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
     </RelativeLayout>
 
 </LinearLayout>
