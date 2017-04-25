@@ -9,5 +9,6 @@
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4648458127513607/6537802171</string>
     <string name="data_refreshed">Data has been updated successfully</string>
     <string name="data_copied">The data was copied successfully</string>
+    <string name="contact_us">Contact us</string>
 
 </resources>
