@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.ponomarenko.myipadrress.UI.activity.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ShareActionProvider mShareActionProvider;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int MAIL_REQUEST = 1110;
     private AdView mAdView;
@@ -147,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_item_share_app:
+                shareApp();
+                break;
+
             case R.id.meu_item_contact_us:
                 startEmailClient();
                 break;
@@ -154,9 +160,19 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void shareApp() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.url_google_play));
+        startActivity(Intent.createChooser(intent, "Share"));
+    }
+
     private void startEmailClient() {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + TextUtils.join(",", new String[]{getString(R.string.developer_email)})));
         intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback about the app \"My IP Address\"");
         startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST);
+
     }
 }

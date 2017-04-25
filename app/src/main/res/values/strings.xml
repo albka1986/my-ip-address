@@ -11,5 +11,7 @@
     <string name="data_copied">The data was copied successfully</string>
     <string name="contact_us">Contact us</string>
     <string name="developer_email">albka1986@gmail.com</string>
+    <string name="share_app">Share the app</string>
+    <string name="url_google_play"><![CDATA[https://play.google.com/store/apps/details?id=com.ponomarenko.myipadrress&hl=en]]></string>
 
 </resources>
