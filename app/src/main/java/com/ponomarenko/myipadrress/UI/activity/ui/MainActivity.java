@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -70,20 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setNetworkType() {
         String networkType = Utils.networkType(getApplicationContext());
-        if (networkType != null) {
-            networkTypeTexView.setText(networkType);
-        } else {
-            networkTypeTexView.setText("");
-        }
+        networkTypeTexView.setText(networkType);
     }
 
     private void setNetworkName() {
         String networkName = Utils.networkName(getApplicationContext());
-        if (networkName != null) {
-            networkNameTextView.setText(networkName);
-        } else {
-            networkNameTextView.setText("");
-        }
+        networkNameTextView.setText(networkName);
     }
 
     private void setIpAddress() {
@@ -114,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.refresh_button:
                     loadData();
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Refreshed IP ADDRESS");
+                    Toast.makeText(MainActivity.this, getString(R.string.data_refreshed), Toast.LENGTH_SHORT).show();
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
                     break;
                 default:
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Copy data to clipboard");

@@ -7,5 +7,6 @@
     <string name="refresh_data">Refresh</string>
     <string name="network_name">Name:</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4648458127513607/6537802171</string>
+    <string name="data_refreshed">Data has updated successfully</string>
 
 </resources>
