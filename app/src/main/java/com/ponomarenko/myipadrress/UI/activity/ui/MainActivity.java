@@ -3,8 +3,14 @@ package com.ponomarenko.myipadrress.UI.activity.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +26,7 @@ import com.ponomarenko.myipadrress.UI.activity.utils.Utils;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int MAIL_REQUEST = 1110;
     private AdView mAdView;
     private TextView ipAddressTextView, networkNameTextView, networkTypeTexView;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -105,13 +112,21 @@ public class MainActivity extends AppCompatActivity {
 
             switch (v.getId()) {
                 case R.id.refresh_button:
+
                     loadData();
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Refreshed IP ADDRESS");
-                    Toast.makeText(MainActivity.this, getString(R.string.data_refreshed), Toast.LENGTH_SHORT).show();
+
+                    String dataRefreshed = getString(R.string.data_refreshed);
+                    Toast.makeText(MainActivity.this, dataRefreshed, Toast.LENGTH_SHORT).show();
+
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed);
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                     break;
                 default:
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Copy data to clipboard");
+
+                    String dataCopied = getString(R.string.data_copied);
+                    Toast.makeText(MainActivity.this, dataCopied, Toast.LENGTH_SHORT).show();
+
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied);
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                     CharSequence text = ((TextView) v).getText();
@@ -122,5 +137,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.meu_item_contact_us:
+                startEmailClient();
+                break;
+        }
+        return true;
+    }
+
+    private void startEmailClient() {
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + TextUtils.join(",", new String[]{getString(R.string.developer_email)})));
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback about the app \"My IP Address\"");
+        startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST);
+    }
 }

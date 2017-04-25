@@ -10,5 +10,6 @@
     <string name="data_refreshed">Data has been updated successfully</string>
     <string name="data_copied">The data was copied successfully</string>
     <string name="contact_us">Contact us</string>
+    <string name="developer_email">albka1986@gmail.com</string>
 
 </resources>

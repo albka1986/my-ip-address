@@ -5,4 +5,6 @@
     <string name="network_type">Тип сети:</string>
     <string name="network_name">Название:</string>
     <string name="data_refreshed">Данные обновлены</string>
+    <string name="contact_us">Написать разработчику</string>
+    <string name="data_copied">Данные скопированы в буфер обмена</string>
 </resources>
