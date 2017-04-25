@@ -10,8 +10,10 @@
     <string name="data_refreshed">Data has been updated successfully</string>
     <string name="data_copied">The data was copied successfully</string>
     <string name="contact_us">Contact us</string>
-    <string name="developer_email">albka1986@gmail.com</string>
+    <string name="developer_email" translatable="false">albka1986@gmail.com</string>
     <string name="share_app">Share the app</string>
     <string name="url_google_play"><![CDATA[https://play.google.com/store/apps/details?id=com.ponomarenko.myipadrress&hl=en]]></string>
+    <string name="copy_clipboard_label" translatable="false">MyIpAddress</string>
+    <string name="email_subject" translatable="false">Feedback about the app \"My IP Address\"</string>
 
 </resources>

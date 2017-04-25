@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +25,10 @@ import com.ponomarenko.myipadrress.UI.activity.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ShareActionProvider mShareActionProvider;
-    private static final String TAG = MainActivity.class.getSimpleName();
     private static final int MAIL_REQUEST = 1110;
     private AdView mAdView;
     private TextView ipAddressTextView, networkNameTextView, networkTypeTexView;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private View.OnClickListener clickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        clickListener = new MyOnClickListener();
+        View.OnClickListener clickListener = new MyOnClickListener();
 
         ipAddressTextView = (TextView) findViewById(R.id.ip_address_text_view);
         ipAddressTextView.setOnClickListener(clickListener);
@@ -106,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class MyOnClickListener implements View.OnClickListener {
+
         @Override
         public void onClick(View v) {
             Bundle bundle = new Bundle();
@@ -132,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                     CharSequence text = ((TextView) v).getText();
-                    copyToClipboard("MyIpAddress", text);
+                    copyToClipboard(getString(R.string.copy_clipboard_label), text);
                     break;
             }
 
@@ -171,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startEmailClient() {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + TextUtils.join(",", new String[]{getString(R.string.developer_email)})));
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback about the app \"My IP Address\"");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
         startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST);
 
     }

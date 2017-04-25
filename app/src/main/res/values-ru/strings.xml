@@ -7,4 +7,5 @@
     <string name="data_refreshed">Данные обновлены</string>
     <string name="contact_us">Написать разработчику</string>
     <string name="data_copied">Данные скопированы в буфер обмена</string>
+    <string name="share_app">Отправить ссылку на приложение</string>
 </resources>
