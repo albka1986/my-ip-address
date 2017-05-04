@@ -36,10 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.title_main_screen));
         initializeViews();
-        loadAdvertisement();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+        loadAdvertisement();
     }
 
     private void loadAdvertisement() {
@@ -60,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         networkTypeTexView = (TextView) findViewById(R.id.network_type);
         networkTypeTexView.setOnClickListener(clickListener);
-
-        loadData();
 
         Button refresh = (Button) findViewById(R.id.refresh_button);
         refresh.setOnClickListener(clickListener);
