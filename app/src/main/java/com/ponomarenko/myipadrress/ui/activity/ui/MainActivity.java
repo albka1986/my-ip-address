@@ -1,12 +1,13 @@
-package com.ponomarenko.myipadrress.UI.activity.ui;
+package com.ponomarenko.myipadrress.ui.activity.ui;
 
+
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +22,9 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ponomarenko.myipadrress.R;
-import com.ponomarenko.myipadrress.UI.activity.utils.Utils;
+import com.ponomarenko.myipadrress.ui.activity.utils.Utils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static final int MAIL_REQUEST = 1110;
     private AdView mAdView;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadAdvertisement() {
         MobileAds.initialize(getApplicationContext(), getString(R.string.banner_ad_unit_id));
-        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
@@ -56,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
     private void initializeViews() {
         View.OnClickListener clickListener = new MyOnClickListener();
 
-        ipAddressTextView = (TextView) findViewById(R.id.ip_address_text_view);
+        ipAddressTextView = findViewById(R.id.ip_address_text_view);
         ipAddressTextView.setOnClickListener(clickListener);
 
-        networkNameTextView = (TextView) findViewById(R.id.network_name);
+        networkNameTextView = findViewById(R.id.network_name);
         networkNameTextView.setOnClickListener(clickListener);
 
-        networkTypeTexView = (TextView) findViewById(R.id.network_type);
+        networkTypeTexView = findViewById(R.id.network_type);
         networkTypeTexView.setOnClickListener(clickListener);
 
-        Button refresh = (Button) findViewById(R.id.refresh_button);
+        Button refresh = findViewById(R.id.refresh_button);
         refresh.setOnClickListener(clickListener);
 
     }
@@ -99,41 +100,8 @@ public class MainActivity extends AppCompatActivity {
     private void copyToClipboard(CharSequence label, CharSequence text) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(label, text);
-        clipboard.setPrimaryClip(clip);
-    }
-
-
-    private class MyOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, v.getId());
-
-
-            switch (v.getId()) {
-                case R.id.refresh_button:
-
-                    loadData();
-
-                    String dataRefreshed = getString(R.string.data_refreshed);
-                    Toast.makeText(MainActivity.this, dataRefreshed, Toast.LENGTH_SHORT).show();
-
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed);
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-                    break;
-                default:
-
-                    String dataCopied = getString(R.string.data_copied);
-                    Toast.makeText(MainActivity.this, dataCopied, Toast.LENGTH_SHORT).show();
-
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied);
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-                    CharSequence text = ((TextView) v).getText();
-                    copyToClipboard(getString(R.string.copy_clipboard_label), text);
-                    break;
-            }
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
 
         }
     }
@@ -173,5 +141,39 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
         startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST);
 
+    }
+
+    private class MyOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, v.getId());
+
+            switch (v.getId()) {
+                case R.id.refresh_button:
+
+                    loadData();
+
+                    String dataRefreshed = getString(R.string.data_refreshed);
+                    Toast.makeText(MainActivity.this, dataRefreshed, Toast.LENGTH_SHORT).show();
+
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed);
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                    break;
+                default:
+
+                    String dataCopied = getString(R.string.data_copied);
+                    Toast.makeText(MainActivity.this, dataCopied, Toast.LENGTH_SHORT).show();
+
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied);
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+                    CharSequence text = ((TextView) v).getText();
+                    copyToClipboard(getString(R.string.copy_clipboard_label), text);
+                    break;
+            }
+
+        }
     }
 }

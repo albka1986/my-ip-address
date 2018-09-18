@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.UI.activity.utils;
+package com.ponomarenko.myipadrress.ui.activity.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -14,6 +14,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Utils {
+
+    private static final String TAG = Utils.class.getSimpleName();
+
+    private Utils() {
+    }
 
     public static String getMACAddress(String interfaceName) {
         try {
@@ -31,18 +36,10 @@ public class Utils {
                 return buf.toString();
             }
         } catch (Exception ex) {
-        } // for now eat exceptions
+            Log.e(TAG, ex.getLocalizedMessage());
+        }
         return "";
-        /*try {
-            // this is so Linux hack
-            return loadFileAsString("/sys/class/net/" +interfaceName + "/address").toUpperCase().trim();
-        } catch (IOException ex) {
-            return null;
-        }*/
     }
-
-
-    // param ipv4 true=return ipv4, false=return ipv6
 
     public static String getIPAddress(boolean useIPv4) {
         try {
@@ -52,7 +49,6 @@ public class Utils {
                 for (InetAddress addr : addrs) {
                     if (!addr.isLoopbackAddress()) {
                         String sAddr = addr.getHostAddress();
-                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
                         boolean isIPv4 = sAddr.indexOf(':') < 0;
 
                         if (useIPv4) {
@@ -68,13 +64,14 @@ public class Utils {
                 }
             }
         } catch (Exception ex) {
+            Log.e(TAG, ex.getLocalizedMessage());
         } // for now eat exceptions
         return "";
     }
 
     public static String getWifiName(Context context) {
-        WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if (manager.isWifiEnabled()) {
+        WifiManager manager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (manager != null && manager.isWifiEnabled()) {
             WifiInfo wifiInfo = manager.getConnectionInfo();
             if (wifiInfo != null) {
                 NetworkInfo.DetailedState state = WifiInfo.getDetailedStateOf(wifiInfo.getSupplicantState());
@@ -92,7 +89,10 @@ public class Utils {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+        }
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
 
@@ -111,7 +111,10 @@ public class Utils {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+        }
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
 
@@ -124,7 +127,7 @@ public class Utils {
 
     private static String getMobileNetworkMName(Context context) {
         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return manager.getNetworkOperatorName();
+        return manager != null ? manager.getNetworkOperatorName() : "";
     }
 
 
