@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +25,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ponomarenko.myipadrress.R;
 import com.ponomarenko.myipadrress.ui.activity.utils.Utils;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private static final int MAIL_REQUEST = 1110;
     private AdView mAdView;
