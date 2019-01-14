@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -29,15 +31,8 @@ public class Utils {
                         String sAddr = addr.getHostAddress();
                         boolean isIPv4 = sAddr.indexOf(':') < 0;
 
-                        if (useIPv4) {
-                            if (isIPv4)
-                                return sAddr;
-                        } else {
-                            if (!isIPv4) {
-                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
-                                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
-                            }
-                        }
+                        String delim = getDelim(useIPv4, sAddr, isIPv4);
+                        if (delim != null) return delim;
                     }
                 }
             }
@@ -45,6 +40,20 @@ public class Utils {
             Log.e(TAG, ex.getLocalizedMessage());
         }
         return "";
+    }
+
+    @Nullable
+    private static String getDelim(boolean useIPv4, String sAddr, boolean isIPv4) {
+        if (useIPv4) {
+            if (isIPv4)
+                return sAddr;
+        } else {
+            if (!isIPv4) {
+                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+            }
+        }
+        return null;
     }
 
     public static String networkName(Context context) {
