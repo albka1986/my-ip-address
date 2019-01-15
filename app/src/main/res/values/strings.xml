@@ -7,6 +7,7 @@
     <string name="refresh_data">Refresh</string>
     <string name="network_name">Name:</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4648458127513607/6537802171</string>
+    <string name="ads_app_id" translatable="false">ca-app-pub-4648458127513607~8433337770</string>
     <string name="data_refreshed">Data has been updated successfully</string>
     <string name="data_copied">The data was copied successfully</string>
     <string name="contact_us">Contact us</string>
@@ -15,6 +16,6 @@
     <string name="url_google_play" translatable="false"><![CDATA[https://play.google.com/store/apps/details?id=com.ponomarenko.myipadrress&hl=en]]></string>
     <string name="copy_clipboard_label" translatable="false">MyIpAddress</string>
     <string name="email_subject" translatable="false">Feedback about the app \"My IP Address\"</string>
-    <string name="hint_ip_address">0.0.0.0</string>
+    <string name="hint_ip_address" translatable="false">0.0.0.0</string>
 
 </resources>

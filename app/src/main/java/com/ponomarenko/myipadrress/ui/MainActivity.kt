@@ -1,13 +1,13 @@
-package com.ponomarenko.myipadrress.ui.activity.ui
+package com.ponomarenko.myipadrress.ui
 
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -20,13 +20,11 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.ui.activity.utils.Utils
+import com.ponomarenko.myipadrress.utils.Utils
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-    private var mAdView: AdView? = null
-    private var ipAddressTextView: TextView? = null
-    private var networkNameTextView: TextView? = null
-    private var networkTypeTexView: TextView? = null
+class MainActivity : Activity(), View.OnClickListener {
+    lateinit var mAdView: AdView
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +33,11 @@ class MainActivity : AppCompatActivity() {
         title = getString(R.string.title_main_screen)
         initializeViews()
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        initAds()
+    }
+
+    private fun initAds() {
+        MobileAds.initialize(applicationContext, getString(R.string.ads_app_id))
     }
 
     override fun onResume() {
@@ -44,26 +47,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadAdvertisement() {
-        MobileAds.initialize(applicationContext, getString(R.string.banner_ad_unit_id))
-        mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
-        mAdView!!.loadAd(adRequest)
+        mAdView = findViewById(R.id.adView)
+        mAdView.loadAd(adRequest)
     }
 
     private fun initializeViews() {
-        val clickListener = MyOnClickListener()
-
-        ipAddressTextView = findViewById(R.id.ip_address_text_view)
-        ipAddressTextView!!.setOnClickListener(clickListener)
-
-        networkNameTextView = findViewById(R.id.network_name)
-        networkNameTextView!!.setOnClickListener(clickListener)
-
-        networkTypeTexView = findViewById(R.id.network_type)
-        networkTypeTexView!!.setOnClickListener(clickListener)
+        ip_address_text_view.setOnClickListener(this)
+        network_name.setOnClickListener(this)
+        network_type.setOnClickListener(this)
 
         val refresh = findViewById<Button>(R.id.refresh_button)
-        refresh.setOnClickListener(clickListener)
+        refresh.setOnClickListener(this)
 
     }
 
@@ -75,20 +70,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNetworkType() {
         val networkType = Utils.networkType(applicationContext)
-        networkTypeTexView!!.text = networkType
+        network_type.text = networkType
     }
 
     private fun setNetworkName() {
         val networkName = Utils.networkName(applicationContext)
-        networkNameTextView!!.text = networkName
+        network_name.text = networkName
     }
 
     private fun setIpAddress() {
         val ipAddress = Utils.getIPAddress(true)
         if (ipAddress != null) {
-            ipAddressTextView!!.text = ipAddress
+            ip_address_text_view.text = ipAddress
         } else {
-            ipAddressTextView!!.text = ""
+            ip_address_text_view.text = ""
         }
     }
 
@@ -130,36 +125,32 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private inner class MyOnClickListener : View.OnClickListener {
+    override fun onClick(v: View) {
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, v.id)
 
-        override fun onClick(v: View) {
-            val bundle = Bundle()
-            bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, v.id)
+        when (v.id) {
+            R.id.refresh_button -> {
 
-            when (v.id) {
-                R.id.refresh_button -> {
+                loadData()
 
-                    loadData()
+                val dataRefreshed = getString(R.string.data_refreshed)
+                Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT).show()
 
-                    val dataRefreshed = getString(R.string.data_refreshed)
-                    Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT).show()
-
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed)
-                    mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-                }
-                else -> {
-
-                    val dataCopied = getString(R.string.data_copied)
-                    Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT).show()
-
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
-                    mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-
-                    val text = (v as TextView).text
-                    copyToClipboard(getString(R.string.copy_clipboard_label), text)
-                }
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed)
+                mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
             }
+            else -> {
 
+                val dataCopied = getString(R.string.data_copied)
+                Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT).show()
+
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
+                mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
+                val text = (v as TextView).text
+                copyToClipboard(getString(R.string.copy_clipboard_label), text)
+            }
         }
     }
 

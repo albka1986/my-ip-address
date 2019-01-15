@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.utils;
+package com.ponomarenko.myipadrress.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
