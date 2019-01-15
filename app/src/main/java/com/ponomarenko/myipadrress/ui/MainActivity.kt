@@ -71,6 +71,9 @@ class MainActivity : Activity(), View.OnClickListener {
     private fun setNetworkType() {
         val networkType = Utils.networkType(applicationContext)
         network_type.text = networkType
+        if (networkType.isNullOrEmpty()) {
+            ip_address_text_view.text = null
+        }
     }
 
     private fun setNetworkName() {
