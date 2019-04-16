@@ -1,7 +1,6 @@
 package com.ponomarenko.myipadrress.ui
 
 
-import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -15,25 +14,44 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ponomarenko.myipadrress.R
+import com.ponomarenko.myipadrress.data.NetworkManager
+import com.ponomarenko.myipadrress.utils.InjectorUtils
 import com.ponomarenko.myipadrress.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : Activity(), View.OnClickListener {
-    lateinit var mAdView: AdView
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+    private lateinit var mAdView: AdView
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initializeUI()
         title = getString(R.string.title_main_screen)
-        initializeViews()
+        setListeners()
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         initAds()
+    }
+
+    private fun initializeUI() {
+        val factory = InjectorUtils.provideMainViewModelFactory()
+        val viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
+
+        viewModel.getIPAddress().observe(this, Observer {
+            ip_address_text_view.text = it.ip
+            network_type.text = it.type.toString()
+            network_name.text = it.name
+        })
+
+
     }
 
     private fun initAds() {
@@ -42,7 +60,7 @@ class MainActivity : Activity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        loadData()
+//        loadData()
         loadAdvertisement()
     }
 
@@ -52,7 +70,7 @@ class MainActivity : Activity(), View.OnClickListener {
         mAdView.loadAd(adRequest)
     }
 
-    private fun initializeViews() {
+    private fun setListeners() {
         ip_address_text_view.setOnClickListener(this)
         network_name.setOnClickListener(this)
         network_type.setOnClickListener(this)
@@ -135,7 +153,7 @@ class MainActivity : Activity(), View.OnClickListener {
         when (v.id) {
             R.id.refresh_button -> {
 
-                loadData()
+                NetworkManager.updateIPAddress(this)
 
                 val dataRefreshed = getString(R.string.data_refreshed)
                 Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT).show()
