@@ -93,6 +93,4 @@ public class Utils {
         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return manager != null ? manager.getNetworkOperatorName() : "";
     }
-
-
 }

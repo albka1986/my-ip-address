@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -15,15 +14,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.ui.activity.utils.Utils
 
 class MainActivity : AppCompatActivity() {
-    private var mAdView: AdView? = null
+    //    private var mAdView: AdView? = null
     private var ipAddressTextView: TextView? = null
     private var networkNameTextView: TextView? = null
     private var networkTypeTexView: TextView? = null
@@ -40,14 +37,16 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         loadData()
-        loadAdvertisement()
+        //TODO: https://github.com/albka1986/my-ip-address/issues/1 Need to update ADS
+
+        //        loadAdvertisement()
     }
 
     private fun loadAdvertisement() {
-        MobileAds.initialize(applicationContext, getString(R.string.banner_ad_unit_id))
-        mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView!!.loadAd(adRequest)
+        //        MobileAds.initialize(applicationContext, getString(R.string.banner_ad_unit_id))
+        //        mAdView = findViewById(R.id.adView)
+        //        val adRequest = AdRequest.Builder().build()
+        //        mAdView!!.loadAd(adRequest)
     }
 
     private fun initializeViews() {
@@ -124,7 +123,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startEmailClient() {
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + TextUtils.join(",", arrayOf(getString(R.string.developer_email)))))
+        val intent = Intent(
+            Intent.ACTION_SENDTO,
+            Uri.parse(
+                "mailto:" + TextUtils.join(
+                    ",",
+                    arrayOf(getString(R.string.developer_email))
+                )
+            )
+        )
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
         startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST)
 
@@ -142,7 +149,8 @@ class MainActivity : AppCompatActivity() {
                     loadData()
 
                     val dataRefreshed = getString(R.string.data_refreshed)
-                    Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT)
+                        .show()
 
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed)
                     mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
@@ -150,7 +158,8 @@ class MainActivity : AppCompatActivity() {
                 else -> {
 
                     val dataCopied = getString(R.string.data_copied)
-                    Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT)
+                        .show()
 
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
                     mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
