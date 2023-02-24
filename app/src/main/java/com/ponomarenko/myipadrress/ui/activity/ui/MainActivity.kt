@@ -11,86 +11,66 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.ui.activity.utils.Utils
+import com.ponomarenko.myipadrress.databinding.ActivityMainBinding
+import com.ponomarenko.myipadrress.ui.activity.utils.NetworkManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MainActivity : AppCompatActivity() {
-    //    private var mAdView: AdView? = null
-    private var ipAddressTextView: TextView? = null
-    private var networkNameTextView: TextView? = null
-    private var networkTypeTexView: TextView? = null
+
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
+    private val viewModel: MainActivityViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        viewModel.onViewCreated()
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         title = getString(R.string.title_main_screen)
         initializeViews()
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        loadData()
-        //TODO: https://github.com/albka1986/my-ip-address/issues/1 Need to update ADS
+        viewModel.ipAddress.observe(this) {
+            binding.ipAddress?.text = it
+        }
 
-        //        loadAdvertisement()
-    }
+        viewModel.networkType.observe(this) {
+            binding.networkType.text = it
+        }
 
-    private fun loadAdvertisement() {
-        //        MobileAds.initialize(applicationContext, getString(R.string.banner_ad_unit_id))
-        //        mAdView = findViewById(R.id.adView)
-        //        val adRequest = AdRequest.Builder().build()
-        //        mAdView!!.loadAd(adRequest)
+        viewModel.networkName.observe(this) {
+            binding.networkName.text = it
+        }
     }
 
     private fun initializeViews() {
-        val clickListener = MyOnClickListener()
-
-        ipAddressTextView = findViewById(R.id.ip_address_text_view)
-        ipAddressTextView!!.setOnClickListener(clickListener)
-
-        networkNameTextView = findViewById(R.id.network_name)
-        networkNameTextView!!.setOnClickListener(clickListener)
-
-        networkTypeTexView = findViewById(R.id.network_type)
-        networkTypeTexView!!.setOnClickListener(clickListener)
-
-        val refresh = findViewById<Button>(R.id.refresh_button)
-        refresh.setOnClickListener(clickListener)
-
+        binding.apply {
+            ipAddress?.apply { setOnClickListener { copyToBuffer(this) } }
+            networkType.setOnClickListener { copyToBuffer(networkType) }
+            networkName.setOnClickListener { copyToBuffer(networkName) }
+            refreshButton.setOnClickListener { viewModel.loadData() }
+        }
     }
 
     private fun loadData() {
-        setIpAddress()
         setNetworkName()
         setNetworkType()
     }
 
     private fun setNetworkType() {
-        val networkType = Utils.networkType(applicationContext)
-        networkTypeTexView!!.text = networkType
+        val networkType = NetworkManager.networkType(applicationContext)
     }
 
     private fun setNetworkName() {
-        val networkName = Utils.networkName(applicationContext)
-        networkNameTextView!!.text = networkName
+        val networkName = NetworkManager.networkName(applicationContext)
     }
-
-    private fun setIpAddress() {
-        val ipAddress = Utils.getIPAddress(true)
-        if (ipAddress != null) {
-            ipAddressTextView!!.text = ipAddress
-        } else {
-            ipAddressTextView!!.text = ""
-        }
-    }
-
 
     private fun copyToClipboard(label: CharSequence, text: CharSequence) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -134,7 +114,19 @@ class MainActivity : AppCompatActivity() {
         )
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
         startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST)
+    }
 
+    private fun copyToBuffer(view: TextView) {
+        val bundle = Bundle()
+
+        val dataCopied = getString(R.string.data_copied)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
+        mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
+        val text = view.text
+        copyToClipboard(getString(R.string.copy_clipboard_label), text)
+        Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT)
+            .show()
     }
 
     private inner class MyOnClickListener : View.OnClickListener {
@@ -155,24 +147,13 @@ class MainActivity : AppCompatActivity() {
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed)
                     mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 }
-                else -> {
-
-                    val dataCopied = getString(R.string.data_copied)
-                    Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT)
-                        .show()
-
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
-                    mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-
-                    val text = (v as TextView).text
-                    copyToClipboard(getString(R.string.copy_clipboard_label), text)
-                }
             }
 
         }
     }
 
     companion object {
+
         private const val MAIL_REQUEST = 1110
     }
 }

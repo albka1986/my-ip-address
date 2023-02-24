@@ -51,14 +51,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/title_network_type"
+                        android:id="@+id/titleNetworkType"
                         style="@style/title_text_style_phone_land"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/network_type" />
 
                     <TextView
-                        android:id="@+id/network_type"
+                        android:id="@+id/networkType"
                         style="@style/info_text_style_phone_land"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -74,14 +74,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/title_network_name"
+                        android:id="@+id/titleNetworkName"
                         style="@style/title_text_style_phone_land"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/network_name" />
 
                     <TextView
-                        android:id="@+id/network_name"
+                        android:id="@+id/networkName"
                         style="@style/title_text_style_phone_land"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
 
             <Button
                 android:id="@+id/refresh_button"
-                style="@style/black_button"
+                style="@style/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
