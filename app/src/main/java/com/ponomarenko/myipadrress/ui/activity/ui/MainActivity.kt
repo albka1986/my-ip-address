@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.onViewCreated()
 
         title = getString(R.string.title_main_screen)
         initializeViews()
@@ -47,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.networkName.observe(this) {
             binding.networkName.text = it
         }
+
+        viewModel.onViewCreated()
     }
 
     private fun initializeViews() {
