@@ -17,22 +17,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.databinding.ActivityMainBinding
-import com.ponomarenko.myipadrress.ui.activity.utils.NetworkManager
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity() {
 
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
-    private val viewModel: MainActivityViewModel by viewModel()
+    private val viewModel: MainActivityViewModel by inject<MainActivityAndroidViewModel>()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.onViewCreated()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel.onViewCreated()
+
         title = getString(R.string.title_main_screen)
         initializeViews()
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -57,19 +56,6 @@ class MainActivity : AppCompatActivity() {
             networkName.setOnClickListener { copyToBuffer(networkName) }
             refreshButton.setOnClickListener { viewModel.loadData() }
         }
-    }
-
-    private fun loadData() {
-        setNetworkName()
-        setNetworkType()
-    }
-
-    private fun setNetworkType() {
-        val networkType = NetworkManager.networkType(applicationContext)
-    }
-
-    private fun setNetworkName() {
-        val networkName = NetworkManager.networkName(applicationContext)
     }
 
     private fun copyToClipboard(label: CharSequence, text: CharSequence) {
@@ -121,7 +107,9 @@ class MainActivity : AppCompatActivity() {
 
         val dataCopied = getString(R.string.data_copied)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
-        mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        mFirebaseAnalytics?.apply {
+            logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        }
 
         val text = view.text
         copyToClipboard(getString(R.string.copy_clipboard_label), text)
@@ -138,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             when (v.id) {
                 R.id.refresh_button -> {
 
-                    loadData()
+                    viewModel.loadData()
 
                     val dataRefreshed = getString(R.string.data_refreshed)
                     Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT)

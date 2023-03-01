@@ -12,7 +12,9 @@ import java.util.Locale
 
 class NetworkManager(context: Context) {
 
-    private val connectivityManager: ConnectivityManager? = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+    private val connectivityManager: ConnectivityManager? = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+
+    private val telephonyManager: TelephonyManager? = context.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
 
     fun getIPAddress(useIPv4: Boolean = true): String {
         try {
@@ -46,31 +48,29 @@ class NetworkManager(context: Context) {
         return ""
     }
 
-    fun networkName(context: Context): String {
+    fun networkName(): String {
         var networkName = ""
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         var activeNetwork: NetworkInfo? = null
-        if (cm != null) {
-            activeNetwork = cm.activeNetworkInfo
+        if (connectivityManager != null) {
+            activeNetwork = connectivityManager.activeNetworkInfo
         }
         val isConnected = activeNetwork != null &&
             activeNetwork.isConnectedOrConnecting
         if (isConnected) {
             networkName = activeNetwork!!.extraInfo
-            if (networkName == null) {
-                networkName = getMobileNetworkMName(context)
+            if (networkName.isEmpty()) {
+                networkName = getMobileNetworkMName()
             }
         }
         Log.d("debug", "getExtraInfo: $networkName")
         return networkName.trim { it <= ' ' }
     }
 
-    fun networkType(context: Context): String {
+    fun networkType(): String {
         var networkType = ""
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         var activeNetwork: NetworkInfo? = null
-        if (cm != null) {
-            activeNetwork = cm.activeNetworkInfo
+        if (connectivityManager != null) {
+            activeNetwork = connectivityManager.activeNetworkInfo
         }
         val isConnected = activeNetwork != null &&
             activeNetwork.isConnectedOrConnecting
@@ -80,8 +80,6 @@ class NetworkManager(context: Context) {
         return networkType.trim { it <= ' ' }
     }
 
-    private fun getMobileNetworkMName(context: Context): String {
-        val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        return manager.networkOperatorName
-    }
+    private fun getMobileNetworkMName(): String =
+        telephonyManager?.networkOperatorName.orEmpty()
 }

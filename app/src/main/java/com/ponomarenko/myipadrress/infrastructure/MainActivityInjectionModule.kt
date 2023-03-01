@@ -8,10 +8,15 @@ import org.koin.dsl.module
 object MainActivityInjectionModule {
 
     val module = module {
+
         viewModel {
             MainActivityAndroidViewModel(
-                utils = NetworkManager
+                utils = get()
             )
+        }
+
+        factory {
+            NetworkManager(context = get())
         }
     }
 }
