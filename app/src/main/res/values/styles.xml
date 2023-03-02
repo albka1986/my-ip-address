@@ -1,10 +1,12 @@
 <resources>
 
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@android:color/black</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="title_text_style">
@@ -55,7 +57,8 @@
     </style>
 
     <style name="button">
-        <item name="android:background">@drawable/black_btn_round</item>
+        <item name="cornerRadius">32dp</item>
+        <item name="backgroundTint">@color/blue</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

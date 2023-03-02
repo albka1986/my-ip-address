@@ -1,80 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.ponomarenko.myipadrress.ui.activity.ui.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ponomarenko.myipadrress.ui.activity.ui.MainActivityViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp">
+        android:layout_height="match_parent"
+        tools:context="com.ponomarenko.myipadrress.ui.activity.ui.MainActivity">
 
-        <TextView
-            android:id="@+id/titleIpAddress"
-            style="@style/title_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ip_address"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/ipAddress"
-            style="@style/info_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:hint="@string/hint_ip_address"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleIpAddress" />
-
-        <TextView
-            android:id="@+id/titleNetworkType"
-            style="@style/title_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/network_type"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ipAddress" />
-
-        <TextView
-            android:id="@+id/networkType"
-            style="@style/info_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleNetworkType" />
-
-        <TextView
-            android:id="@+id/titleNetworkName"
-            style="@style/title_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/network_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/networkType" />
-
-        <TextView
-            android:id="@+id/networkName"
-            style="@style/info_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleNetworkName" />
-
-        <Button
-            android:id="@+id/refresh_button"
-            style="@style/button"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp"
-            android:text="@string/refresh_data"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/networkName" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                android:id="@+id/titleIpAddress"
+                style="@style/title_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ip_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ipAddress"
+                style="@style/info_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="@string/hint_ip_address"
+                android:text='@{viewModel.ipAddress}'
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleIpAddress" />
+
+            <TextView
+                android:id="@+id/titleNetworkType"
+                style="@style/title_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/network_type"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ipAddress" />
+
+            <TextView
+                android:id="@+id/networkType"
+                style="@style/info_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.networkType}'
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleNetworkType"
+                tools:text="WiFi" />
+
+            <TextView
+                android:id="@+id/titleNetworkName"
+                style="@style/title_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/network_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/networkType" />
+
+            <TextView
+                android:id="@+id/networkName"
+                style="@style/info_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.networkName}'
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleNetworkName"
+                tools:text="Lifecell" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/refresh_button"
+                style="@style/button"
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="168dp"
+                android:onClick="@{() -> viewModel.onRefreshClicked()}"
+                android:text="@string/refresh_data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/networkName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

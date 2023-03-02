@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -24,7 +25,7 @@ android {
     namespace 'com.ponomarenko.myipadrress'
 
     buildFeatures {
-        viewBinding true
+        dataBinding true
     }
 }
 
@@ -39,6 +40,9 @@ dependencies {
 
     /* DI */
     implementation "io.insert-koin:koin-android:3.3.0"
+
+    /*Material design*/
+    implementation 'com.google.android.material:material:1.8.0'
 }
 
 repositories {

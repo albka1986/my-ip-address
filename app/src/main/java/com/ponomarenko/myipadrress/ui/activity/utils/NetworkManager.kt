@@ -12,9 +12,11 @@ import java.util.Locale
 
 class NetworkManager(context: Context) {
 
-    private val connectivityManager: ConnectivityManager? = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+    private val connectivityManager: ConnectivityManager? =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
 
-    private val telephonyManager: TelephonyManager? = context.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
+    private val telephonyManager: TelephonyManager? =
+        context.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
 
     fun getIPAddress(useIPv4: Boolean = true): String {
         try {
