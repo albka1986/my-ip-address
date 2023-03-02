@@ -1,125 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context="com.ponomarenko.myipadrress.ui.activity.ui.MainActivity">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ponomarenko.myipadrress.ui.activity.ui.MainActivityViewModel" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-        <RelativeLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            tools:context="com.ponomarenko.myipadrress.ui.activity.ui.MainActivity">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="100dp"
+                android:paddingBottom="320dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:orientation="horizontal">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ipAddressContainer"
+                    style="@style/Container"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        style="@style/title_text_style_phone_land"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/titleIpAddress"
+                        style="@style/title_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ip_address" />
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/ip_address"
+                        app:layout_constraintBottom_toTopOf="@id/ipAddressGuidLine"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                    <TextView
-                        android:id="@+id/ip_address_text_view"
-                        style="@style/info_text_style_phone_land"
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/ipAddressGuidLine"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="12dp"
-                        android:hint="@string/hint_ip_address" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:orientation="horizontal">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ipAddress"
+                        style="@style/info_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_ip_address"
+                        android:text='@{viewModel.ipAddress}'
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ipAddressGuidLine"
+                        tools:text="0.0.0.0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/networkTypeContainer"
+                    style="@style/Container"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/ipAddressContainer">
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/titleNetworkType"
-                        style="@style/title_text_style_phone_land"
+                        style="@style/title_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/network_type" />
+                        android:text="@string/network_type"
+                        app:layout_constraintBottom_toTopOf="@id/networkTypeGuidLine"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                    <TextView
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/networkTypeGuidLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/networkType"
-                        style="@style/info_text_style_phone_land"
+                        style="@style/info_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        tools:text="Wifi" />
+                        android:text='@{viewModel.networkType}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/networkTypeGuidLine"
+                        tools:text="WiFi" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/networkNameContainer"
+                    style="@style/Container"
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/networkTypeContainer">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:orientation="horizontal">
-
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/titleNetworkName"
-                        style="@style/title_text_style_phone_land"
+                        style="@style/title_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/network_name" />
+                        android:text="@string/network_name"
+                        app:layout_constraintBottom_toTopOf="@id/networkNameGuidLine"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                    <TextView
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/networkNameGuidLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/networkName"
-                        style="@style/title_text_style_phone_land"
+                        style="@style/info_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        tools:text="My Wifi" />
+                        android:text='@{viewModel.networkName}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/networkNameGuidLine"
+                        tools:text="Lifecell" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/refresh_button"
-                style="@style/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="25dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/refresh_data" />
-        </RelativeLayout>
-
-    </ScrollView>
-
-<!--    //TODO: https://github.com/albka1986/my-ip-address/issues/1 Need to update ADS-->
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <com.google.android.gms.ads.AdView-->
-<!--            android:id="@+id/adView"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            ads:adSize="BANNER"-->
-<!--            ads:adUnitId="@string/banner_ad_unit_id" />-->
-<!--    </RelativeLayout>-->
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/refresh_button"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginBottom="40dp"
+            android:onClick="@{() -> viewModel.onRefreshClicked()}"
+            android:text="@string/refresh_data" />
+    </FrameLayout>
+</layout>

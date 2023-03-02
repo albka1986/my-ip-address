@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.telephony.TelephonyManager
 import android.util.Log
+import timber.log.Timber
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.util.Collections
@@ -44,8 +45,8 @@ class NetworkManager(context: Context) {
                     }
                 }
             }
-        } catch (e: Exception) {
-            Log.e("NetworkManager", e.localizedMessage)
+        } catch (ex: Exception) {
+            Timber.e(ex.localizedMessage)
         }
         return ""
     }
@@ -64,12 +65,12 @@ class NetworkManager(context: Context) {
                 networkName = getMobileNetworkMName()
             }
         }
-        Log.d("debug", "getExtraInfo: $networkName")
+        Timber.d("getExtraInfo: $networkName")
         return networkName.trim { it <= ' ' }
     }
 
     fun networkType(): String {
-        var networkType = ""
+        var networkType = "- - - "
         var activeNetwork: NetworkInfo? = null
         if (connectivityManager != null) {
             activeNetwork = connectivityManager.activeNetworkInfo

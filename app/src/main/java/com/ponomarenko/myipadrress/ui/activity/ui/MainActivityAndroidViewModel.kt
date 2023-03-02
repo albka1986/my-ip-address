@@ -14,6 +14,16 @@ class MainActivityAndroidViewModel(
 
     override val networkType = MutableLiveData("")
 
+    override fun onViewCreated() {
+        loadData()
+    }
+
+    override fun loadData() {
+        ipAddress.postValue(utils.getIPAddress(true))
+        networkType.postValue(utils.networkType())
+        networkName.postValue(utils.networkName())
+    }
+
     override fun onIPAddressClicked() {
         //todo
     }
@@ -27,16 +37,6 @@ class MainActivityAndroidViewModel(
     }
 
     override fun onRefreshClicked() {
-        loadData()
-    }
-
-    override fun loadData() {
-        ipAddress.postValue(utils.getIPAddress(true))
-        networkType.postValue(utils.networkType())
-        networkName.postValue(utils.networkName())
-    }
-
-    override fun onViewCreated() {
         loadData()
     }
 }
