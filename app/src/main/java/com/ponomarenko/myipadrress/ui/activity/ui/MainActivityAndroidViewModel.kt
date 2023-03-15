@@ -3,6 +3,7 @@ package com.ponomarenko.myipadrress.ui.activity.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ponomarenko.myipadrress.ui.activity.utils.NetworkManager
+import timber.log.Timber
 
 class MainActivityAndroidViewModel(
     private val utils: NetworkManager
@@ -19,9 +20,13 @@ class MainActivityAndroidViewModel(
     }
 
     override fun loadData() {
-        ipAddress.postValue(utils.getIPAddress(true))
-        networkType.postValue(utils.networkType())
-        networkName.postValue(utils.networkName())
+        try {
+            ipAddress.postValue(utils.getIPAddress(true))
+            networkType.postValue(utils.networkType())
+            networkName.postValue(utils.getActiveNetworkName())
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 
     override fun onIPAddressClicked() {
