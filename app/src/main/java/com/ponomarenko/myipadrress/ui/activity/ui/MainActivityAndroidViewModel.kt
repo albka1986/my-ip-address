@@ -22,7 +22,7 @@ class MainActivityAndroidViewModel(
     override fun loadData() {
         try {
             ipAddress.postValue(utils.getIPAddress(true))
-            networkType.postValue(utils.networkType())
+            networkType.postValue(utils.getActiveNetworkType())
             networkName.postValue(utils.getActiveNetworkName())
         } catch (e: Exception) {
             Timber.e(e)

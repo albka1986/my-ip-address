@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
 import android.telephony.TelephonyManager
+import com.ponomarenko.myipadrress.ui.activity.model.NetworkType
 import timber.log.Timber
 import java.net.Inet4Address
 import java.net.InetAddress
@@ -95,32 +96,35 @@ class NetworkManager(context: Context) {
             activeNetwork = connectivityManager.activeNetworkInfo
         }
         val isConnected = activeNetwork != null &&
-            activeNetwork.isConnectedOrConnecting
+                activeNetwork.isConnectedOrConnecting
         if (isConnected) {
             networkType = activeNetwork!!.typeName
         }
         return networkType.trim { it <= ' ' }
     }
 
-    fun getActiveNetworkType(connectivityManager: ConnectivityManager): String {
+    fun getActiveNetworkType(): String {
+        if (connectivityManager == null) return NetworkType.UNKNOWN.value
+
         val activeNetwork = connectivityManager.activeNetwork
         val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
         return if (networkCapabilities != null) {
             when {
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "Wi-Fi"
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> NetworkType.WIFI.value
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
                     val mobileNetworkType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         networkCapabilities.networkSpecifier?.toString()
                     } else {
                         networkType()
                     }
-                    mobileNetworkType ?: "Cellular"
+                    mobileNetworkType ?: NetworkType.MOBILE.value
                 }
-                else -> "Unknown"
+
+                else -> NetworkType.UNKNOWN.value
             }
         } else {
-            "Disconnected"
-        }.trim()
+            NetworkType.DISCONNECTED.value
+        }
     }
 
     @Deprecated("use in case new method will bring any issue")
@@ -132,7 +136,7 @@ class NetworkManager(context: Context) {
             activeNetwork = connectivityManager.activeNetworkInfo
         }
         val isConnected = activeNetwork != null &&
-            activeNetwork.isConnectedOrConnecting
+                activeNetwork.isConnectedOrConnecting
 
         if (isConnected) {
             networkName = activeNetwork!!.extraInfo
@@ -145,6 +149,7 @@ class NetworkManager(context: Context) {
         return networkName.trim { it <= ' ' }
     }
 
+    @Deprecated("backup")
     fun getActiveNetworkName(): String {
         val activeNetwork = connectivityManager?.activeNetwork
         val networkCapabilities = connectivityManager?.getNetworkCapabilities(activeNetwork)
@@ -154,10 +159,12 @@ class NetworkManager(context: Context) {
                     val wifiInfo = connectivityManager?.getNetworkInfo(NetworkCapabilities.TRANSPORT_WIFI)
                     wifiInfo?.extraInfo ?: ""
                 }
+
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
                     val mobileInfo = connectivityManager?.getNetworkInfo(NetworkCapabilities.TRANSPORT_CELLULAR)
                     mobileInfo?.extraInfo ?: ""
                 }
+
                 else -> ""
             }
         } else {

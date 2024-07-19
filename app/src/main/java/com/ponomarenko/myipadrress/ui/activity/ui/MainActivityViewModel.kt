@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 
 interface MainActivityViewModel {
 
+    val ipAddress: LiveData<String>
+
     val networkType: LiveData<String>
 
     val networkName: LiveData<String>
-
-    val ipAddress: LiveData<String>
 
     fun loadData()
 

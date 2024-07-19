@@ -13,30 +13,56 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.analytics.FirebaseAnalytics
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.databinding.ActivityMainBinding
-import org.koin.android.ext.android.inject
+import com.ponomarenko.myipadrress.ui.activity.ui.components.PrimaryButton
+import com.ponomarenko.myipadrress.ui.activity.utils.DevicePreviews
+import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
-    private val viewModel: MainActivityViewModel by inject<MainActivityAndroidViewModel>()
-    private lateinit var binding: ActivityMainBinding
+    //    private val viewModel: MainActivityViewModel by inject<MainActivityAndroidViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        setContentView(binding.root)
 
-        title = getString(R.string.title_main_screen)
-        initializeViews()
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        enableEdgeToEdge()
 
-        viewModel.onViewCreated()
+        setContent {
+            AppTheme {
+                Scaffold { innerPadding ->
+                    MainScreen(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(vertical = 24.dp)
+                            .background(MaterialTheme.colorScheme.onSurface)
+                            .padding(innerPadding)
+                    )
+                }
+            }
+        }
+        //        binding = ActivityMainBinding.inflate(layoutInflater)
+        //        binding.lifecycleOwner = this
+        //        binding.viewModel = viewModel
+        //        setContentView(binding.root)
+        //
+        //        title = getString(R.string.title_main_screen)
+        //        initializeViews()
+        //
+        //        viewModel.onViewCreated()
     }
 
     private fun initializeViews() {
@@ -95,11 +121,6 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
 
         val dataCopied = getString(R.string.data_copied)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataCopied)
-        mFirebaseAnalytics?.apply {
-            logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-        }
-
         val text = view.text
         copyToClipboard(getString(R.string.copy_clipboard_label), text)
         Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT)
@@ -108,18 +129,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun onRefreshClicked(view: View) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, view.id)
 
         val dataRefreshed = getString(R.string.data_refreshed)
         Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT)
             .show()
-
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, dataRefreshed)
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     companion object {
 
         private const val MAIL_REQUEST = 1110
+    }
+
+    @Composable
+    fun MainScreen(modifier: Modifier) {
+        Box(modifier = modifier.fillMaxWidth()) {
+            PrimaryButton({}, getString(R.string.refresh_data))
+        }
+    }
+
+    @ThemePreviews
+    @DevicePreviews
+    @Composable
+    fun MainScreenPreview() {
+        MainScreen(Modifier)
     }
 }
