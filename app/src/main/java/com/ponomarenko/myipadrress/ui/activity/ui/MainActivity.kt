@@ -26,9 +26,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.ui.activity.ui.components.PrimaryButton
+import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
 import com.ponomarenko.myipadrress.ui.activity.utils.DevicePreviews
 import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
 
@@ -37,9 +37,8 @@ class MainActivity : ComponentActivity() {
     //    private val viewModel: MainActivityViewModel by inject<MainActivityAndroidViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
 
         setContent {
             AppTheme {
