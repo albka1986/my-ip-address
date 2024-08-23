@@ -17,29 +17,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.ui.activity.ui.components.PrimaryButton
 import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
-import com.ponomarenko.myipadrress.ui.activity.utils.DevicePreviews
-import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
-    //    private val viewModel: MainActivityViewModel by inject<MainActivityAndroidViewModel>()
+//    private val viewModel: MainViewModel by inject<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
         setContent {
             AppTheme {
                 Scaffold { innerPadding ->
@@ -137,19 +131,5 @@ class MainActivity : ComponentActivity() {
     companion object {
 
         private const val MAIL_REQUEST = 1110
-    }
-
-    @Composable
-    fun MainScreen(modifier: Modifier) {
-        Box(modifier = modifier.fillMaxWidth()) {
-            PrimaryButton({}, getString(R.string.refresh_data))
-        }
-    }
-
-    @ThemePreviews
-    @DevicePreviews
-    @Composable
-    fun MainScreenPreview() {
-        MainScreen(Modifier)
     }
 }

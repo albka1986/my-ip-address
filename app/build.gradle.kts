@@ -35,7 +35,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         compose = true
     }
 
@@ -71,6 +70,7 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.timber)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.viewmodel)
 
     testImplementation(libs.junit)
 
