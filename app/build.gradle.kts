@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.viewmodel)
+    implementation(libs.accompanist)
+
 
     testImplementation(libs.junit)
 

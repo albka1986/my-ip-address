@@ -8,4 +8,7 @@
     <string name="contact_us">Написать разработчику</string>
     <string name="data_copied">Данные скопированы в буфер обмена</string>
     <string name="share_app">Отправить ссылку на приложение</string>
+    <string name="cellular">Сотовая связь</string>
+    <string name="unknown">Нет данных</string>
+    <string name="no_network">Нет сети</string>
 </resources>

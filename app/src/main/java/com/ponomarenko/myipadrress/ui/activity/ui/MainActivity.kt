@@ -1,76 +1,42 @@
 package com.ponomarenko.myipadrress.ui.activity.ui
 
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
-//    private val viewModel: MainViewModel by inject<MainViewModel>()
+    private val viewModel: MainAndroidViewModel by inject<MainAndroidViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                Scaffold { innerPadding ->
-                    MainScreen(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(vertical = 24.dp)
-                            .background(MaterialTheme.colorScheme.onSurface)
-                            .padding(innerPadding)
-                    )
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    MainScreen()
                 }
             }
         }
-        //        binding = ActivityMainBinding.inflate(layoutInflater)
-        //        binding.lifecycleOwner = this
-        //        binding.viewModel = viewModel
-        //        setContentView(binding.root)
-        //
-        //        title = getString(R.string.title_main_screen)
-        //        initializeViews()
-        //
-        //        viewModel.onViewCreated()
     }
 
-    private fun initializeViews() {
-        //        binding.apply {
-        //            ipAddress.apply { setOnClickListener { copyToBuffer(this) } }
-        //            networkType.setOnClickListener { copyToBuffer(networkType) }
-        //            networkName.setOnClickListener { copyToBuffer(networkName) }
-        //            refreshButton.setOnClickListener { viewModel.loadData() }
-        //        }
-    }
+    override fun onPause() {
+        super.onPause()
 
-    private fun copyToClipboard(label: CharSequence, text: CharSequence) {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(label, text)
-        clipboard.setPrimaryClip(clip)
+        viewModel.updateData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -108,24 +74,6 @@ class MainActivity : ComponentActivity() {
         )
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
         startActivityForResult(Intent.createChooser(intent, "Invite friends"), MAIL_REQUEST)
-    }
-
-    private fun copyToBuffer(view: TextView) {
-        val bundle = Bundle()
-
-        val dataCopied = getString(R.string.data_copied)
-        val text = view.text
-        copyToClipboard(getString(R.string.copy_clipboard_label), text)
-        Toast.makeText(this@MainActivity, dataCopied, Toast.LENGTH_SHORT)
-            .show()
-    }
-
-    private fun onRefreshClicked(view: View) {
-        val bundle = Bundle()
-
-        val dataRefreshed = getString(R.string.data_refreshed)
-        Toast.makeText(this@MainActivity, dataRefreshed, Toast.LENGTH_SHORT)
-            .show()
     }
 
     companion object {
