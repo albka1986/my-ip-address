@@ -12,8 +12,5 @@ object MainActivityInjectionModule {
             MainAndroidViewModel(application = get())
         }
 
-        factory {
-            NetworkManager(context = get())
-        }
     }
 }
