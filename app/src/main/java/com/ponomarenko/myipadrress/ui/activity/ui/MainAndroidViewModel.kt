@@ -13,12 +13,19 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.ui.activity.model.NetworkType
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -28,14 +35,11 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
     private val connectivityManager: ConnectivityManager =
         application.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    private val network: Network? = connectivityManager.activeNetwork
+    private val wifiManager by lazy { application.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
 
-    private val wifiManager = application.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    private val telephonyManager by lazy { application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
 
-    private val telephonyManager = application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-
-    private val activeNetwork: NetworkCapabilities? =
-        connectivityManager.getNetworkCapabilities(network)
+    private val httpClient: HttpClient by lazy { HttpClient() }
 
     private val networkRequest: NetworkRequest by lazy {
         NetworkRequest.Builder()
@@ -54,8 +58,10 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
             ) {
                 super.onCapabilitiesChanged(network, capabilities)
                 (capabilities.transportInfo as? WifiInfo)?.apply {
-                    _uiState.update { currentState ->
-                        currentState.copy(networkName = ssid)
+                    if (ssid != WifiManager.UNKNOWN_SSID) {
+                        _uiState.update { currentState ->
+                            currentState.copy(networkName = ssid)
+                        }
                     }
                 }
             }
@@ -67,8 +73,8 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
     private val cellularText = application.getString(R.string.cellular)
     private val unknownText = application.getString(R.string.unknown)
     private val defaultIpAddress = application.getString(R.string.default_ip_address)
-    private val _uiState = MutableStateFlow(IPAddressState())
 
+    private val _uiState = MutableStateFlow(IPAddressState())
     val uiState: StateFlow<IPAddressState> = _uiState.asStateFlow()
 
     init {
@@ -78,31 +84,37 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
     fun updateData() {
         val networkType: NetworkType = getNetworkType()
 
-        _uiState.update {
-            IPAddressState(
-                ipAddress = getInternalIpAddress(),
-                networkType = when (networkType) {
-                    NetworkType.WIFI -> wifiText
-                    NetworkType.CELLULAR -> cellularText
-                    NetworkType.UNKNOWN -> unknownText
-                    else -> noNetworkText
-                },
+        _uiState.update { currentState ->
+            currentState.copy(
+                internalIpAddress = getInternalIpAddress(),
+                networkType = getNetworkTypeText(networkType),
                 networkName = getNetworkName(networkType)
             )
         }
+            .also {
+                getExternalIpAddress()
+            }
     }
+
+    private fun getNetworkTypeText(networkType: NetworkType) =
+        when (networkType) {
+            NetworkType.WIFI -> wifiText
+            NetworkType.CELLULAR -> cellularText
+            NetworkType.UNKNOWN -> unknownText
+            else -> noNetworkText
+        }
 
     private fun getNetworkName(networkType: NetworkType): String =
         when (networkType) {
             NetworkType.WIFI -> getWifiNetworkName()
-            NetworkType.CELLULAR -> telephonyManager.networkOperatorName
-            else -> unknownText
+            NetworkType.CELLULAR -> telephonyManager.simOperatorName
+            else -> noNetworkText
         }
 
     private fun getWifiNetworkName(): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             requestAndListenForNetwork()
-            "..."
+            ""
         } else {
             // For older versions (below Android 12)
             @Suppress("DEPRECATION")
@@ -116,17 +128,18 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
 
     private fun requestAndListenForNetwork() {
         connectivityManager.requestNetwork(networkRequest, networkCallback)
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
-    private fun getNetworkType(): NetworkType =
-        when {
-            network == null -> NetworkType.DISCONNECTED
+    private fun getNetworkType(): NetworkType {
+        val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return when {
             activeNetwork == null -> NetworkType.DISCONNECTED
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> NetworkType.WIFI
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> NetworkType.CELLULAR
             else -> NetworkType.UNKNOWN
         }
+    }
 
     private fun getInternalIpAddress(): String {
         // For Android 12 and above
@@ -160,18 +173,25 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
         return defaultIpAddress
     }
 
-    //    fun getExternalIpAddress(): String? {
-    //        val client = OkHttpClient()
-    //        val request = Request.Builder()
-    //            .url("https://api.ipify.org?format=text")
-    //            .build()
-    //
-    //        return try {
-    //            client.newCall(request)
-    //                .execute().body?.string()
-    //        } catch (e: IOException) {
-    //            e.printStackTrace()
-    //            null
-    //        }
-    //    }
+    private fun getExternalIpAddress() {
+        //TODO: implement loading state for the Item component
+        viewModelScope.launch(Dispatchers.IO) {
+            val externalIpAddress: String = try {
+                httpClient.get(urlString = EXTERNAL_IP_ADDRESS_URL)
+                    .body<String>()
+            } catch (e: Exception) {
+                Timber.w(e)
+                defaultIpAddress
+            }
+
+            _uiState.update { currentState ->
+                currentState.copy(externalIpAddress = externalIpAddress)
+            }
+        }
+    }
+
+    private companion object {
+
+        const val EXTERNAL_IP_ADDRESS_URL = "https://api.ipify.org?format=text"
+    }
 }

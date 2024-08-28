@@ -1,7 +1,8 @@
 package com.ponomarenko.myipadrress.ui.activity.ui
 
 data class IPAddressState(
-    val ipAddress: String = "",
+    val internalIpAddress: String = "",
+    val externalIpAddress: String = "",
     val networkType: String = "",
     val networkName: String = "",
 )

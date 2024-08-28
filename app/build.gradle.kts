@@ -72,7 +72,8 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.viewmodel)
     implementation(libs.accompanist)
-
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.cio)
 
     testImplementation(libs.junit)
 

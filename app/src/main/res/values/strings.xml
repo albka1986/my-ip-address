@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Ip Address</string>
-    <string name="ip_address" translatable="false">IP ADDRESS:</string>
+    <string name="ip_address">Internal IP address:</string>
     <string name="copySuccessful">Data have been copied into clipboard</string>
     <string name="title_main_screen" translatable="false">IP ADDRESS</string>
     <string name="network_type">Type:</string>
@@ -20,4 +20,5 @@
     <string name="cellular">CELLULAR</string>
     <string name="unknown">UNKNOWN</string>
     <string name="no_network">No Network</string>
+    <string name="external_ip_address">External IP Address:</string>
 </resources>

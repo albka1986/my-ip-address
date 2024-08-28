@@ -54,7 +54,7 @@ fun MainScreen() {
         ) {
             Item(
                 title = stringResource(R.string.ip_address),
-                value = uiState.value.ipAddress
+                value = uiState.value.internalIpAddress
             )
 
             Item(
@@ -65,6 +65,11 @@ fun MainScreen() {
             Item(
                 title = stringResource(R.string.network_name),
                 value = uiState.value.networkName
+            )
+
+            Item(
+                title = stringResource(R.string.external_ip_address),
+                value = uiState.value.externalIpAddress
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -95,7 +100,7 @@ fun MainScreen() {
                         "Please grant us fine location. Thank you :D"
             } else {
                 // First time the user sees this feature or the user doesn't want to be asked again
-                "This feature requires location permission"
+                "This app requires location permission"
             }
 
             val buttonText = if (!allPermissionsRevoked) {

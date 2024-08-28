@@ -11,4 +11,6 @@
     <string name="cellular">Сотовая связь</string>
     <string name="unknown">Нет данных</string>
     <string name="no_network">Нет сети</string>
+    <string name="external_ip_address">Внешний IP адрес:</string>
+    <string name="ip_address">Внутренний IP адрес:</string>
 </resources>
