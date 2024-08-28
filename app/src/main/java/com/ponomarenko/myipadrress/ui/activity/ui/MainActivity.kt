@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
         return true
     }
 
+    //TODO: implemented share app feature
     private fun shareApp() {
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
@@ -62,6 +63,7 @@ class MainActivity : ComponentActivity() {
         startActivity(Intent.createChooser(intent, "Share"))
     }
 
+    //TODO: implement feedback feature
     private fun startEmailClient() {
         val intent = Intent(
             Intent.ACTION_SENDTO,
