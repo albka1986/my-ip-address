@@ -14,22 +14,14 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
 
 @Composable
 fun Item(title: String, value: String) {
-
-    var valueTextSize by remember { mutableStateOf(36.sp) }
 
     val clipboard: ClipboardManager = LocalContext.current.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -50,17 +42,10 @@ fun Item(title: String, value: String) {
             style = typography.labelLarge,
             color = colorScheme.onSecondary,
         )
-        Text(
-            overflow = TextOverflow.Visible,
-            modifier = Modifier.padding(bottom = 24.dp, start = 24.dp, end = 24.dp, top = 8.dp),
+        AutoScalableText(
             text = value,
-            maxLines = 1,
-            onTextLayout = { textLayoutResult ->
-                if (textLayoutResult.hasVisualOverflow) {
-                    valueTextSize *= 0.99f
-                }
-            },
-            style = typography.displayLarge.copy(fontSize = valueTextSize),
+            modifier = Modifier.padding(bottom = 24.dp, start = 24.dp, end = 24.dp, top = 8.dp),
+            style = typography.displayMedium,
             color = colorScheme.onSecondary,
         )
     }
