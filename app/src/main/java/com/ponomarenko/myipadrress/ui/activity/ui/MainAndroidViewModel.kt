@@ -32,12 +32,18 @@ import java.net.NetworkInterface
 import java.util.Collections
 
 class MainAndroidViewModel(application: Application) : ViewModel() {
-    private val connectivityManager: ConnectivityManager =
+
+    private val connectivityManager: ConnectivityManager by lazy {
         application.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
-    private val wifiManager by lazy { application.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
+    private val wifiManager: WifiManager by lazy {
+        application.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    }
 
-    private val telephonyManager by lazy { application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
+    private val telephonyManager: TelephonyManager by lazy {
+        application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    }
 
     private val httpClient: HttpClient by lazy { HttpClient() }
 
@@ -51,7 +57,6 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
     private val networkCallback by lazy {
         @RequiresApi(Build.VERSION_CODES.S)
         object : ConnectivityManager.NetworkCallback(FLAG_INCLUDE_LOCATION_INFO) {
-
             override fun onCapabilitiesChanged(
                 network: Network,
                 capabilities: NetworkCapabilities
@@ -60,7 +65,11 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
                 (capabilities.transportInfo as? WifiInfo)?.apply {
                     if (ssid != WifiManager.UNKNOWN_SSID) {
                         _uiState.update { currentState ->
-                            currentState.copy(networkName = ssid)
+                            currentState.copy(
+                                networkName = ssid
+                                    .removePrefix("\"")
+                                    .removeSuffix("\"")
+                            )
                         }
                     }
                 }
@@ -81,14 +90,26 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
         updateData()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            connectivityManager.unregisterNetworkCallback(networkCallback)
+        }
+    }
+
     fun updateData() {
+        _uiState.update { currentState ->
+            currentState.copy(isLoading = true)
+        }
+
         val networkType: NetworkType = getNetworkType()
 
         _uiState.update { currentState ->
             currentState.copy(
-                internalIpAddress = getInternalIpAddress(),
+                internalIpAddress = getInternalIpAddress().takeIf { networkType != NetworkType.DISCONNECTED }
+                    ?: defaultIpAddress,
                 networkType = getNetworkTypeText(networkType),
-                networkName = getNetworkName(networkType)
+                networkName = getNetworkName(networkType),
             )
         }
             .also {
@@ -174,7 +195,6 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
     }
 
     private fun getExternalIpAddress() {
-        //TODO: implement loading state for the Item component
         viewModelScope.launch(Dispatchers.IO) {
             val externalIpAddress: String = try {
                 httpClient.get(urlString = EXTERNAL_IP_ADDRESS_URL)
@@ -185,7 +205,7 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
             }
 
             _uiState.update { currentState ->
-                currentState.copy(externalIpAddress = externalIpAddress)
+                currentState.copy(externalIpAddress = externalIpAddress, isLoading = false)
             }
         }
     }

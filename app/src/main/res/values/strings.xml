@@ -21,4 +21,9 @@
     <string name="unknown">UNKNOWN</string>
     <string name="no_network">No Network</string>
     <string name="external_ip_address">External IP Address:</string>
+    <string name="permissions_provided_partially">Yay! Thanks for letting me access your approximate location. But you know what would be great? If you allow me to know where you exactly are. Thank you!</string>
+    <string name="force_to_provide_permissions">Getting your exact location is important for this app. Please grant us fine location. Thank you :D</string>
+    <string name="request_permissions">This app requires location permission</string>
+    <string name="request_permissions_details_data">Allow precise location</string>
+    <string name="request_permissions_button">Request permissions</string>
 </resources>

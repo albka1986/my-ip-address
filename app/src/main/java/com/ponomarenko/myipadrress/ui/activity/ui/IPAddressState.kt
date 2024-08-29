@@ -5,4 +5,5 @@ data class IPAddressState(
     val externalIpAddress: String = "",
     val networkType: String = "",
     val networkName: String = "",
+    val isLoading: Boolean = false,
 )

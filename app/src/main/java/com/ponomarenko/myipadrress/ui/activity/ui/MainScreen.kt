@@ -32,8 +32,6 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainScreen() {
-    val viewmodel: MainAndroidViewModel = koinViewModel()
-    val uiState: State<IPAddressState> = viewmodel.uiState.collectAsState()
     val mediumPadding: Dp = dimensionResource(R.dimen.padding_medium)
 
     val locationPermissionsState = rememberMultiplePermissionsState(
@@ -44,6 +42,8 @@ fun MainScreen() {
     )
 
     if (locationPermissionsState.allPermissionsGranted) {
+        val viewmodel: MainAndroidViewModel = koinViewModel()
+        val uiState: State<IPAddressState> = viewmodel.uiState.collectAsState()
         Column(
             modifier = Modifier
                 .statusBarsPadding()
@@ -76,7 +76,8 @@ fun MainScreen() {
 
             PrimaryButton(
                 onClick = { viewmodel.updateData() },
-                text = stringResource(R.string.refresh_data)
+                text = stringResource(R.string.refresh_data),
+                isLoading = uiState.value.isLoading
             )
         }
     } else {
@@ -91,22 +92,19 @@ fun MainScreen() {
             val textToShow = if (!allPermissionsRevoked) {
                 // If not all the permissions are revoked, it's because the user accepted the COARSE
                 // location permission, but not the FINE one.
-                "Yay! Thanks for letting me access your approximate location. " +
-                        "But you know what would be great? If you allow me to know where you " +
-                        "exactly are. Thank you!"
+                stringResource(R.string.permissions_provided_partially)
             } else if (locationPermissionsState.shouldShowRationale) {
                 // Both location permissions have been denied
-                "Getting your exact location is important for this app. " +
-                        "Please grant us fine location. Thank you :D"
+                stringResource(R.string.force_to_provide_permissions)
             } else {
                 // First time the user sees this feature or the user doesn't want to be asked again
-                "This app requires location permission"
+                stringResource(R.string.request_permissions)
             }
 
             val buttonText = if (!allPermissionsRevoked) {
-                "Allow precise location"
+                stringResource(R.string.request_permissions_details_data)
             } else {
-                "Request permissions"
+                stringResource(R.string.request_permissions_button)
             }
 
             Text(text = textToShow)
