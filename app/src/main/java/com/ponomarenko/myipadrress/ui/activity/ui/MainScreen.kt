@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.ponomarenko.myipadrress.R
@@ -107,10 +109,13 @@ fun MainScreen() {
                 stringResource(R.string.request_permissions_button)
             }
 
-            Text(text = textToShow)
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = { locationPermissionsState.launchMultiplePermissionRequest() }) {
-                Text(buttonText)
+            Text(text = textToShow, style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(32.dp))
+            Button(
+                onClick = { locationPermissionsState.launchMultiplePermissionRequest() },
+                Modifier.height(64.dp)
+            ) {
+                Text(text = buttonText, fontSize = 22.sp)
             }
         }
     }
