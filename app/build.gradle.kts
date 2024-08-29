@@ -11,7 +11,7 @@ android {
         applicationId = "com.ponomarenko.myipadrress"
         minSdk = 26
         targetSdk = 34
-        versionCode = 10
+        versionCode = 11
         versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -26,6 +26,7 @@ android {
             isMinifyEnabled = true
             isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            ndk.debugSymbolLevel = "FULL"
         }
         debug {
             isMinifyEnabled = false
@@ -74,6 +75,7 @@ dependencies {
     implementation(libs.accompanist)
     implementation(libs.ktor.core)
     implementation(libs.ktor.cio)
+    implementation(libs.slf4j.simple)
 
     testImplementation(libs.junit)
 
