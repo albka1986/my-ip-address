@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.ponomarenko.myipadrress.ui.activity.ui.theme.Dimens
 import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
 
 @Composable
@@ -33,7 +34,7 @@ fun Item(title: String, value: String) {
             .clickable {
                 copyToClipboard(title, value, clipboard)
             }
-            .heightIn(min = 120.dp)
+            .heightIn(min = Dimens.itemHeight)
             .background(colorScheme.secondary)
     ) {
         Text(

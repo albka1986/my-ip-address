@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.ktor.core)
     implementation(libs.ktor.cio)
     implementation(libs.slf4j.simple)
+    implementation(libs.play.services.ads)
 
     testImplementation(libs.junit)
 

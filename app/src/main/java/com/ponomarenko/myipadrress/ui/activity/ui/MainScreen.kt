@@ -26,6 +26,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.ui.activity.ui.components.Item
+import com.ponomarenko.myipadrress.ui.activity.ui.components.NativeAdViewComposable
 import com.ponomarenko.myipadrress.ui.activity.ui.components.PrimaryButton
 import com.ponomarenko.myipadrress.ui.activity.utils.DevicePreviews
 import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
@@ -54,6 +55,9 @@ fun MainScreen() {
                 .padding(mediumPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            //            BannerAdView()
+            NativeAdViewComposable()
+
             Item(
                 title = stringResource(R.string.ip_address),
                 value = uiState.value.internalIpAddress
