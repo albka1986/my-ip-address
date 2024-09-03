@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui
+package com.ponomarenko.myipadrress.ui
 
 
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.initialization.InitializationStatus
-import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
+import com.ponomarenko.myipadrress.ui.theme.AppTheme
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 

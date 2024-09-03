@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui.components
+package com.ponomarenko.myipadrress.ui.components
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text

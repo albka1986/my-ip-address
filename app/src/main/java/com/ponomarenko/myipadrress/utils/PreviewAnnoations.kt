@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.utils
+package com.ponomarenko.myipadrress.utils
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

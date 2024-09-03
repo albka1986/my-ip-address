@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui
+package com.ponomarenko.myipadrress.ui
 
 import android.app.Application
 import android.content.Context
@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.ui.activity.model.NetworkType
+import com.ponomarenko.myipadrress.model.NetworkType
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

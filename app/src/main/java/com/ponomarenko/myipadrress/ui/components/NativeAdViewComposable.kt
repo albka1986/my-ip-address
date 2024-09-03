@@ -1,8 +1,7 @@
-package com.ponomarenko.myipadrress.ui.activity.ui.components
+package com.ponomarenko.myipadrress.ui.components
 
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -20,7 +19,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
+import com.ponomarenko.myipadrress.utils.ThemePreviews
 
 @Composable
 fun NativeAdViewComposable() {

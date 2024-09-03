@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui.components
+package com.ponomarenko.myipadrress.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,14 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
+import com.ponomarenko.myipadrress.utils.ThemePreviews
 
 @Composable
 fun BannerAdView(modifier: Modifier = Modifier) {

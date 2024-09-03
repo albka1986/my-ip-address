@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui.theme
+package com.ponomarenko.myipadrress.ui.theme
 
 import androidx.compose.ui.unit.dp
 

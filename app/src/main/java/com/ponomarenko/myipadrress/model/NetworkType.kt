@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.model
+package com.ponomarenko.myipadrress.model
 
 enum class NetworkType(val value: String) {
     WIFI("Wi-Fi"),
