@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.ponomarenko.myipadrress.R
+import com.ponomarenko.myipadrress.ui.components.BannerAdView
 import com.ponomarenko.myipadrress.ui.components.Item
-import com.ponomarenko.myipadrress.ui.components.NativeAdViewComposable
 import com.ponomarenko.myipadrress.ui.components.PrimaryButton
 import com.ponomarenko.myipadrress.utils.DevicePreviews
 import com.ponomarenko.myipadrress.utils.ThemePreviews
@@ -55,9 +55,6 @@ fun MainScreen() {
                 .padding(mediumPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //            BannerAdView()
-            NativeAdViewComposable()
-
             Item(
                 title = stringResource(R.string.ip_address),
                 value = uiState.value.internalIpAddress
@@ -77,6 +74,8 @@ fun MainScreen() {
                 title = stringResource(R.string.external_ip_address),
                 value = uiState.value.externalIpAddress
             )
+
+            BannerAdView()
 
             Spacer(modifier = Modifier.weight(1f))
 
