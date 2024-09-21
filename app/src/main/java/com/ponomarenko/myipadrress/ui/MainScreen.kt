@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui
+package com.ponomarenko.myipadrress.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,10 +25,11 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.ponomarenko.myipadrress.R
-import com.ponomarenko.myipadrress.ui.activity.ui.components.Item
-import com.ponomarenko.myipadrress.ui.activity.ui.components.PrimaryButton
-import com.ponomarenko.myipadrress.ui.activity.utils.DevicePreviews
-import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
+import com.ponomarenko.myipadrress.ui.components.BannerAdView
+import com.ponomarenko.myipadrress.ui.components.Item
+import com.ponomarenko.myipadrress.ui.components.PrimaryButton
+import com.ponomarenko.myipadrress.utils.DevicePreviews
+import com.ponomarenko.myipadrress.utils.ThemePreviews
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -73,6 +74,8 @@ fun MainScreen() {
                 title = stringResource(R.string.external_ip_address),
                 value = uiState.value.externalIpAddress
             )
+
+            BannerAdView()
 
             Spacer(modifier = Modifier.weight(1f))
 

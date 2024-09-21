@@ -11,8 +11,8 @@ android {
         applicationId = "com.ponomarenko.myipadrress"
         minSdk = 26
         targetSdk = 34
-        versionCode = 12
-        versionName = "2.0"
+        versionCode = 15
+        versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.ktor.core)
     implementation(libs.ktor.cio)
     implementation(libs.slf4j.simple)
+    implementation(libs.play.services.ads)
 
     testImplementation(libs.junit)
 

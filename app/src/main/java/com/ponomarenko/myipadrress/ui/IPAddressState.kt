@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui
+package com.ponomarenko.myipadrress.ui
 
 data class IPAddressState(
     val internalIpAddress: String = "",

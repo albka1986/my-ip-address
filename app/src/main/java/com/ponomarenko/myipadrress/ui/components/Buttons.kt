@@ -1,4 +1,4 @@
-package com.ponomarenko.myipadrress.ui.activity.ui.components
+package com.ponomarenko.myipadrress.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ponomarenko.myipadrress.ui.activity.ui.theme.AppTheme
-import com.ponomarenko.myipadrress.ui.activity.utils.ThemePreviews
+import com.ponomarenko.myipadrress.ui.theme.AppTheme
+import com.ponomarenko.myipadrress.utils.ThemePreviews
 
 @Composable
 fun PrimaryButton(onClick: () -> Unit, text: String, isLoading: Boolean = false) {
