@@ -11,7 +11,7 @@ android {
         applicationId = "com.ponomarenko.myipadrress"
         minSdk = 26
         targetSdk = 34
-        versionCode = 15
+        versionCode = 16
         versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
