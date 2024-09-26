@@ -11,7 +11,7 @@ android {
         applicationId = "com.ponomarenko.myipadrress"
         minSdk = 26
         targetSdk = 34
-        versionCode = 15
+        versionCode = 19
         versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -33,6 +33,10 @@ android {
             isDebuggable = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+    }
+
+    base {
+        archivesName = "my-ip-address-${defaultConfig.versionName}-${defaultConfig.versionCode}"
     }
 
     buildFeatures {
