@@ -1,6 +1,11 @@
 package com.ponomarenko.myipadrress.ui
 
+import android.content.Intent
+import android.provider.Settings
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,15 +13,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -26,6 +42,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.ponomarenko.myipadrress.R
 import com.ponomarenko.myipadrress.ui.components.BannerAdView
+import com.ponomarenko.myipadrress.ui.components.Dialog
 import com.ponomarenko.myipadrress.ui.components.Item
 import com.ponomarenko.myipadrress.ui.components.PrimaryButton
 import com.ponomarenko.myipadrress.utils.DevicePreviews
@@ -35,8 +52,6 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainScreen() {
-    val mediumPadding: Dp = dimensionResource(R.dimen.padding_medium)
-
     val locationPermissionsState = rememberMultiplePermissionsState(
         listOf(
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -47,6 +62,9 @@ fun MainScreen() {
     if (locationPermissionsState.allPermissionsGranted) {
         val viewmodel: MainAndroidViewModel = koinViewModel()
         val uiState: State<IPAddressState> = viewmodel.uiState.collectAsState()
+        var showDialog by remember { mutableStateOf(false) }
+        val mediumPadding: Dp = dimensionResource(R.dimen.padding_medium)
+
         Column(
             modifier = Modifier
                 .statusBarsPadding()
@@ -65,10 +83,34 @@ fun MainScreen() {
                 value = uiState.value.networkType
             )
 
-            Item(
-                title = stringResource(R.string.network_name),
-                value = uiState.value.networkName
-            )
+            Box {
+                Item(
+                    title = stringResource(R.string.network_name),
+                    value = uiState.value.networkName
+                )
+
+                if (!uiState.value.isLocationEnabled) {
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .padding(vertical = 16.dp)
+                            .align(Alignment.Center)
+                            .alpha(0.6f)
+                            .clip(shape = RoundedCornerShape(8.dp))
+                            .clickable { showDialog = true }
+                            .background(Color.Black)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .matchParentSize()
+                            .padding(16.dp),
+                        text = "Location is disabled\nClick here to enable",
+                        style = typography.displaySmall,
+                        color = colorScheme.onSecondary
+                    )
+                }
+            }
 
             Item(
                 title = stringResource(R.string.external_ip_address),
@@ -84,6 +126,23 @@ fun MainScreen() {
                 text = stringResource(R.string.refresh_data),
                 isLoading = uiState.value.isLoading
             )
+
+            //todo: extract and translate text strings
+            if (showDialog) {
+                val context = LocalContext.current
+
+                Dialog(
+                    onDismissRequest = {
+                        showDialog = false
+                    },
+                    onConfirmation = {
+                        context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                        showDialog = false
+                    },
+                    dialogTitle = "Alert dialog example",
+                    dialogText = "This is an example of an alert dialog with buttons.",
+                )
+            }
         }
     } else {
         Column(
@@ -116,7 +175,9 @@ fun MainScreen() {
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 onClick = { locationPermissionsState.launchMultiplePermissionRequest() },
-                Modifier.height(64.dp)
+                Modifier
+                    .height(64.dp)
+                    .padding(16.dp)
             ) {
                 Text(text = buttonText, fontSize = 22.sp)
             }

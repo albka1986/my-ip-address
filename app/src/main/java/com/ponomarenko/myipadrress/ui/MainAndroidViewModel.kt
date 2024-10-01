@@ -2,6 +2,7 @@ package com.ponomarenko.myipadrress.ui
 
 import android.app.Application
 import android.content.Context
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
@@ -45,6 +46,10 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
         application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     }
 
+    private val locationManager: LocationManager by lazy {
+        application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+
     private val httpClient: HttpClient by lazy { HttpClient() }
 
     private val networkRequest: NetworkRequest by lazy {
@@ -69,6 +74,14 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
                                 networkName = ssid
                                     .removePrefix("\"")
                                     .removeSuffix("\"")
+                            )
+                        }
+                    } else {
+                        _uiState.update { currentState ->
+                            currentState.copy(
+                                isLocationEnabled = locationManager.isProviderEnabled(
+                                    LocationManager.GPS_PROVIDER
+                                )
                             )
                         }
                     }
@@ -165,7 +178,7 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
     private fun getInternalIpAddress(): String {
         // For Android 12 and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val network = connectivityManager.activeNetwork ?: return defaultIpAddress
+            val network: Network = connectivityManager.activeNetwork ?: return defaultIpAddress
             val linkProperties: LinkProperties = connectivityManager.getLinkProperties(network)
                 ?: return defaultIpAddress
             val addresses: List<InetAddress> = linkProperties.linkAddresses.map { it.address }

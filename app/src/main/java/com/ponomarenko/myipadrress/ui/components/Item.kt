@@ -31,9 +31,7 @@ fun Item(title: String, value: String) {
             .padding(vertical = 16.dp)
             .clip(shape = RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .clickable {
-                copyToClipboard(title, value, clipboard)
-            }
+            .clickable { copyToClipboard(title, value, clipboard) }
             .heightIn(min = Dimens.itemHeight)
             .background(colorScheme.secondary)
     ) {
@@ -45,7 +43,7 @@ fun Item(title: String, value: String) {
         )
         AutoScalableText(
             text = value,
-            modifier = Modifier.padding(bottom = 24.dp, start = 24.dp, end = 24.dp, top = 8.dp),
+            modifier = Modifier.padding(bottom = 24.dp, start = 24.dp, end = 16.dp, top = 8.dp),
             style = typography.displayMedium,
             color = colorScheme.onSecondary,
         )

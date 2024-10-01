@@ -6,4 +6,5 @@ data class IPAddressState(
     val networkType: String = "",
     val networkName: String = "",
     val isLoading: Boolean = false,
+    val isLocationEnabled: Boolean = true,
 )

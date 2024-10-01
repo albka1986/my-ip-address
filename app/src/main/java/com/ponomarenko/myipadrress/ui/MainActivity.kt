@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // Initialize the Google Mobile Ads SDK on a background thread.
         Thread {
             MobileAds.initialize(this) { initializationStatus: InitializationStatus? ->
                 Timber.d(initializationStatus.toString())
