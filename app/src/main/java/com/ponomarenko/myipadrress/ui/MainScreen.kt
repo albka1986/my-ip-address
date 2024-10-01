@@ -16,7 +16,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
@@ -171,7 +170,7 @@ fun MainScreen() {
                 stringResource(R.string.request_permissions_button)
             }
 
-            Text(text = textToShow, style = MaterialTheme.typography.titleLarge)
+            Text(text = textToShow, style = typography.titleLarge)
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 onClick = { locationPermissionsState.launchMultiplePermissionRequest() },
