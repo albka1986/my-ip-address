@@ -11,8 +11,8 @@ android {
         applicationId = "com.ponomarenko.myipadrress"
         minSdk = 26
         targetSdk = 34
-        versionCode = 19
-        versionName = "2.1"
+        versionCode = 20
+        versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
