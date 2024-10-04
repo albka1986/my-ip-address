@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.ponomarenko.myipadrress"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ponomarenko.myipadrress"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 20
         versionName = "2.2"
 
