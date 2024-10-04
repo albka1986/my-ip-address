@@ -1,22 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">Ip Address</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4648458127513607/6537802171</string>
+    <string name="default_ip_address" translatable="false">0.0.0.0</string>
+    <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="ip_address">Internal IP address:</string>
-    <string name="copySuccessful">Data have been copied into clipboard</string>
-    <string name="title_main_screen" translatable="false">IP ADDRESS</string>
     <string name="network_type">Type:</string>
     <string name="refresh_data">Refresh</string>
     <string name="network_name">Name:</string>
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4648458127513607/6537802171</string>
-    <string name="data_refreshed">Data has been updated successfully</string>
-    <string name="data_copied">The data was copied successfully</string>
-    <string name="contact_us">Contact us</string>
-    <string name="developer_email" translatable="false">albka1986@gmail.com</string>
-    <string name="share_app">Share the app</string>
-    <string name="url_google_play" translatable="false"><![CDATA[https://play.google.com/store/apps/details?id=com.ponomarenko.myipadrress&hl=en]]></string>
-    <string name="copy_clipboard_label" translatable="false">MyIpAddress</string>
-    <string name="email_subject" translatable="false">Feedback about the app \"My IP Address\"</string>
-    <string name="default_ip_address" translatable="false">0.0.0.0</string>
-    <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="cellular">CELLULAR</string>
     <string name="unknown">UNKNOWN</string>
     <string name="no_network">No Network</string>
@@ -26,4 +16,7 @@
     <string name="request_permissions">This app requires location permission</string>
     <string name="request_permissions_details_data">Allow precise location</string>
     <string name="request_permissions_button">Request permissions</string>
+    <string name="gps_is_disabled">Location is disabled\nClick here to enable</string>
+    <string name="location_is_disabled">Location is disabled</string>
+    <string name="location_is_disabled_description">To see the WiFi name, please enable your location</string>
 </resources>

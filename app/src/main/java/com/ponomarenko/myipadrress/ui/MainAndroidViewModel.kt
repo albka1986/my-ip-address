@@ -71,6 +71,7 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
                     if (ssid != WifiManager.UNKNOWN_SSID) {
                         _uiState.update { currentState ->
                             currentState.copy(
+                                isLocationEnabled = true,
                                 networkName = ssid
                                     .removePrefix("\"")
                                     .removeSuffix("\"")
@@ -98,10 +99,6 @@ class MainAndroidViewModel(application: Application) : ViewModel() {
 
     private val _uiState = MutableStateFlow(IPAddressState())
     val uiState: StateFlow<IPAddressState> = _uiState.asStateFlow()
-
-    init {
-        updateData()
-    }
 
     override fun onCleared() {
         super.onCleared()

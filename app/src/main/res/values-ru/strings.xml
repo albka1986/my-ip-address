@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="copySuccessful">Данные скопированы в буфер обмена</string>
     <string name="refresh_data">Обновить</string>
     <string name="network_type">Тип сети:</string>
     <string name="network_name">Название:</string>
-    <string name="data_refreshed">Данные обновлены</string>
-    <string name="contact_us">Написать разработчику</string>
-    <string name="data_copied">Данные скопированы в буфер обмена</string>
-    <string name="share_app">Отправить ссылку на приложение</string>
     <string name="cellular">Сотовая связь</string>
     <string name="unknown">Нет данных</string>
     <string name="no_network">Нет сети</string>
@@ -18,4 +13,7 @@
     <string name="request_permissions">Для работы этого приложения требуется разрешение на доступ к вашему местоположению.</string>
     <string name="request_permissions_details_data">Разрешите доступ к точному местоположению</string>
     <string name="request_permissions_button">Запрос разрешений</string>
+    <string name="gps_is_disabled">Местоположение отключено\nНажмите здесь, чтобы включить</string>
+    <string name="location_is_disabled">Местоположение отключено</string>
+    <string name="location_is_disabled_description">Чтобы увидеть название WiFi, пожалуйста, включите местоположение</string>
 </resources>

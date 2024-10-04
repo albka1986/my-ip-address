@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -37,6 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.ponomarenko.myipadrress.R
@@ -63,6 +66,10 @@ fun MainScreen() {
         val uiState: State<IPAddressState> = viewmodel.uiState.collectAsState()
         var showDialog by remember { mutableStateOf(false) }
         val mediumPadding: Dp = dimensionResource(R.dimen.padding_medium)
+
+        LifecycleEventEffect(event = Lifecycle.Event.ON_RESUME) {
+            viewmodel.updateData()
+        }
 
         Column(
             modifier = Modifier
@@ -104,7 +111,7 @@ fun MainScreen() {
                             .align(Alignment.Center)
                             .matchParentSize()
                             .padding(16.dp),
-                        text = "Location is disabled\nClick here to enable",
+                        text = stringResource(R.string.gps_is_disabled),
                         style = typography.displaySmall,
                         color = colorScheme.onSecondary
                     )
@@ -126,7 +133,6 @@ fun MainScreen() {
                 isLoading = uiState.value.isLoading
             )
 
-            //todo: extract and translate text strings
             if (showDialog) {
                 val context = LocalContext.current
 
@@ -138,8 +144,8 @@ fun MainScreen() {
                         context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                         showDialog = false
                     },
-                    dialogTitle = "Alert dialog example",
-                    dialogText = "This is an example of an alert dialog with buttons.",
+                    dialogTitle = stringResource(R.string.location_is_disabled),
+                    dialogText = stringResource(R.string.location_is_disabled_description),
                 )
             }
         }
@@ -175,7 +181,7 @@ fun MainScreen() {
             Button(
                 onClick = { locationPermissionsState.launchMultiplePermissionRequest() },
                 Modifier
-                    .height(64.dp)
+                    .heightIn(min = 64.dp)
                     .padding(16.dp)
             ) {
                 Text(text = buttonText, fontSize = 22.sp)

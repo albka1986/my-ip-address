@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ip_address">Внутрішня IP-адреса:</string>
+    <string name="network_type">Тип:</string>
+    <string name="refresh_data">Оновити</string>
+    <string name="network_name">Назва:</string>
+    <string name="cellular">Мобільна мережа</string>
+    <string name="unknown">Невідомо</string>
+    <string name="no_network">Немає мережі</string>
+    <string name="external_ip_address">Зовнішня IP-адреса:</string>
+    <string name="permissions_provided_partially">Ура! Дякую, що надали мені доступ до вашого приблизного місцезнаходження. Але знаєте, що було б ще краще? Якщо б ви дозволили дізнатися ваше точне місцезнаходження. Дякую!</string>
+    <string name="force_to_provide_permissions">Отримання вашого точного місцезнаходження важливе для цього додатка. Будь ласка, дайте нам доступ до точного місцезнаходження. Дякуємо :D</string>
+    <string name="request_permissions">Цей додаток вимагає дозволу на доступ до місцезнаходження</string>
+    <string name="request_permissions_details_data">Дозволити точне місцезнаходження</string>
+    <string name="request_permissions_button">Запросити дозволи</string>
+    <string name="gps_is_disabled">Місцезнаходження вимкнено\nНатисніть тут, щоб увімкнути</string>
+    <string name="location_is_disabled">Місцезнаходження вимкнено</string>
+    <string name="location_is_disabled_description">Щоб побачити назву WiFi, будь ласка, увімкніть місцезнаходження</string>
+</resources>

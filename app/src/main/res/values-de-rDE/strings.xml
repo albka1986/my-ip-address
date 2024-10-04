@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ip_address">Interne IP-Adresse:</string>
+    <string name="network_type">Typ:</string>
+    <string name="refresh_data">Aktualisieren</string>
+    <string name="network_name">Name:</string>
+    <string name="cellular">Mobilfunknetz</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="no_network">Kein Netzwerk</string>
+    <string name="external_ip_address">Externe IP-Adresse:</string>
+    <string name="permissions_provided_partially">Hurra! Danke, dass Sie mir Zugang zu Ihrem ungefähren Standort gewährt haben. Aber wissen Sie, was noch besser wäre? Wenn Sie mir erlauben, zu wissen, wo Sie sich genau befinden. Danke!</string>
+    <string name="force_to_provide_permissions">Es ist wichtig für diese App, Ihren genauen Standort zu kennen. Bitte geben Sie uns die Erlaubnis für den exakten Standort. Vielen Dank :D</string>
+    <string name="request_permissions">Diese App erfordert Standortberechtigung</string>
+    <string name="request_permissions_details_data">Präzisen Standort erlauben</string>
+    <string name="request_permissions_button">Berechtigungen anfordern</string>
+    <string name="gps_is_disabled">Standort ist deaktiviert\nHier klicken, um zu aktivieren</string>
+    <string name="location_is_disabled">Standort ist deaktiviert</string>
+    <string name="location_is_disabled_description">Um den WiFi-Namen anzuzeigen, aktivieren Sie bitte Ihren Standort</string>
+</resources>
